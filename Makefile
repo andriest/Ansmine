@@ -186,6 +186,30 @@ src/ansmined_main.cpp.s:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmined_main.cpp.s
 .PHONY : src/ansmined_main.cpp.s
 
+src/moc_ansmine.o: src/moc_ansmine.cxx.o
+.PHONY : src/moc_ansmine.o
+
+# target to build an object file
+src/moc_ansmine.cxx.o:
+	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.o
+.PHONY : src/moc_ansmine.cxx.o
+
+src/moc_ansmine.i: src/moc_ansmine.cxx.i
+.PHONY : src/moc_ansmine.i
+
+# target to preprocess a source file
+src/moc_ansmine.cxx.i:
+	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.i
+.PHONY : src/moc_ansmine.cxx.i
+
+src/moc_ansmine.s: src/moc_ansmine.cxx.s
+.PHONY : src/moc_ansmine.s
+
+# target to generate assembly for a file
+src/moc_ansmine.cxx.s:
+	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.s
+.PHONY : src/moc_ansmine.cxx.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -204,6 +228,9 @@ help:
 	@echo "... src/ansmined_main.o"
 	@echo "... src/ansmined_main.i"
 	@echo "... src/ansmined_main.s"
+	@echo "... src/moc_ansmine.o"
+	@echo "... src/moc_ansmine.i"
+	@echo "... src/moc_ansmine.s"
 .PHONY : help
 
 
