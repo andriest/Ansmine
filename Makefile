@@ -114,6 +114,19 @@ Ansmine/fast:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/build
 .PHONY : Ansmine/fast
 
+#=============================================================================
+# Target rules for targets named Ansmined
+
+# Build rule for target.
+Ansmined: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Ansmined
+.PHONY : Ansmined
+
+# fast build rule for target.
+Ansmined/fast:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/build
+.PHONY : Ansmined/fast
+
 src/ansmine.o: src/ansmine.cpp.o
 .PHONY : src/ansmine.o
 
@@ -167,7 +180,7 @@ src/ansmined_main.o: src/ansmined_main.cpp.o
 
 # target to build an object file
 src/ansmined_main.cpp.o:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmined_main.cpp.o
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/ansmined_main.cpp.o
 .PHONY : src/ansmined_main.cpp.o
 
 src/ansmined_main.i: src/ansmined_main.cpp.i
@@ -175,7 +188,7 @@ src/ansmined_main.i: src/ansmined_main.cpp.i
 
 # target to preprocess a source file
 src/ansmined_main.cpp.i:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmined_main.cpp.i
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/ansmined_main.cpp.i
 .PHONY : src/ansmined_main.cpp.i
 
 src/ansmined_main.s: src/ansmined_main.cpp.s
@@ -183,7 +196,7 @@ src/ansmined_main.s: src/ansmined_main.cpp.s
 
 # target to generate assembly for a file
 src/ansmined_main.cpp.s:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmined_main.cpp.s
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/ansmined_main.cpp.s
 .PHONY : src/ansmined_main.cpp.s
 
 src/moc_ansmine.o: src/moc_ansmine.cxx.o
@@ -192,6 +205,7 @@ src/moc_ansmine.o: src/moc_ansmine.cxx.o
 # target to build an object file
 src/moc_ansmine.cxx.o:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.o
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_ansmine.cxx.o
 .PHONY : src/moc_ansmine.cxx.o
 
 src/moc_ansmine.i: src/moc_ansmine.cxx.i
@@ -200,6 +214,7 @@ src/moc_ansmine.i: src/moc_ansmine.cxx.i
 # target to preprocess a source file
 src/moc_ansmine.cxx.i:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.i
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_ansmine.cxx.i
 .PHONY : src/moc_ansmine.cxx.i
 
 src/moc_ansmine.s: src/moc_ansmine.cxx.s
@@ -208,6 +223,7 @@ src/moc_ansmine.s: src/moc_ansmine.cxx.s
 # target to generate assembly for a file
 src/moc_ansmine.cxx.s:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.s
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_ansmine.cxx.s
 .PHONY : src/moc_ansmine.cxx.s
 
 # Help Target
@@ -217,6 +233,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... Ansmine"
+	@echo "... Ansmined"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... src/ansmine.o"
