@@ -205,7 +205,6 @@ src/moc_ansmine.o: src/moc_ansmine.cxx.o
 # target to build an object file
 src/moc_ansmine.cxx.o:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.o
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_ansmine.cxx.o
 .PHONY : src/moc_ansmine.cxx.o
 
 src/moc_ansmine.i: src/moc_ansmine.cxx.i
@@ -214,7 +213,6 @@ src/moc_ansmine.i: src/moc_ansmine.cxx.i
 # target to preprocess a source file
 src/moc_ansmine.cxx.i:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.i
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_ansmine.cxx.i
 .PHONY : src/moc_ansmine.cxx.i
 
 src/moc_ansmine.s: src/moc_ansmine.cxx.s
@@ -223,8 +221,55 @@ src/moc_ansmine.s: src/moc_ansmine.cxx.s
 # target to generate assembly for a file
 src/moc_ansmine.cxx.s:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.s
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_ansmine.cxx.s
 .PHONY : src/moc_ansmine.cxx.s
+
+src/moc_tray.o: src/moc_tray.cxx.o
+.PHONY : src/moc_tray.o
+
+# target to build an object file
+src/moc_tray.cxx.o:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.o
+.PHONY : src/moc_tray.cxx.o
+
+src/moc_tray.i: src/moc_tray.cxx.i
+.PHONY : src/moc_tray.i
+
+# target to preprocess a source file
+src/moc_tray.cxx.i:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.i
+.PHONY : src/moc_tray.cxx.i
+
+src/moc_tray.s: src/moc_tray.cxx.s
+.PHONY : src/moc_tray.s
+
+# target to generate assembly for a file
+src/moc_tray.cxx.s:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.s
+.PHONY : src/moc_tray.cxx.s
+
+src/tray.o: src/tray.cpp.o
+.PHONY : src/tray.o
+
+# target to build an object file
+src/tray.cpp.o:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/tray.cpp.o
+.PHONY : src/tray.cpp.o
+
+src/tray.i: src/tray.cpp.i
+.PHONY : src/tray.i
+
+# target to preprocess a source file
+src/tray.cpp.i:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/tray.cpp.i
+.PHONY : src/tray.cpp.i
+
+src/tray.s: src/tray.cpp.s
+.PHONY : src/tray.s
+
+# target to generate assembly for a file
+src/tray.cpp.s:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/tray.cpp.s
+.PHONY : src/tray.cpp.s
 
 # Help Target
 help:
@@ -248,6 +293,12 @@ help:
 	@echo "... src/moc_ansmine.o"
 	@echo "... src/moc_ansmine.i"
 	@echo "... src/moc_ansmine.s"
+	@echo "... src/moc_tray.o"
+	@echo "... src/moc_tray.i"
+	@echo "... src/moc_tray.s"
+	@echo "... src/tray.o"
+	@echo "... src/tray.i"
+	@echo "... src/tray.s"
 .PHONY : help
 
 
