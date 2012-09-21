@@ -194,6 +194,7 @@ qrc_ansmine.o: qrc_ansmine.cxx.o
 # target to build an object file
 qrc_ansmine.cxx.o:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.o
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/qrc_ansmine.cxx.o
 .PHONY : qrc_ansmine.cxx.o
 
 qrc_ansmine.i: qrc_ansmine.cxx.i
@@ -202,6 +203,7 @@ qrc_ansmine.i: qrc_ansmine.cxx.i
 # target to preprocess a source file
 qrc_ansmine.cxx.i:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.i
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/qrc_ansmine.cxx.i
 .PHONY : qrc_ansmine.cxx.i
 
 qrc_ansmine.s: qrc_ansmine.cxx.s
@@ -210,6 +212,7 @@ qrc_ansmine.s: qrc_ansmine.cxx.s
 # target to generate assembly for a file
 qrc_ansmine.cxx.s:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.s
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/qrc_ansmine.cxx.s
 .PHONY : qrc_ansmine.cxx.s
 
 src/ansmine.o: src/ansmine.cpp.o

@@ -10,6 +10,7 @@
 class QMenu;
 class QAction;
 class QSystemTrayIcon;
+//class QWidget;
 
 class Tray: public QWidget 
 {
@@ -18,6 +19,9 @@ class Tray: public QWidget
 public:
     Tray();
     ~Tray();
+    
+public slots:
+    void quit();
     
 private:
     void createActions();
