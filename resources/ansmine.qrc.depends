@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="/">
+    <file>digaku-logo_16x16x32.png</file>
+    <file>digaku-logo_32x32x32.png</file>
+    <file>digaku-logo_48x48x32.png</file>
+    <file>digaku-logo_128x128x32.png</file>
+  </qresource>
+</RCC>

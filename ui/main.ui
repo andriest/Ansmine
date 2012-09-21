@@ -22,12 +22,12 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="lblLogo">
             <property name="text">
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../belajar/ansmine/resources/ansmine.qrc">:/digaku-logo_48x48x32.png</pixmap>
+             <pixmap resource="../resources/ansmine.qrc">:/digaku-logo_48x48x32.png</pixmap>
             </property>
            </widget>
           </item>
@@ -145,7 +145,7 @@ color: rgb(127, 136, 204);</string>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="../../belajar/ansmine/resources/ansmine.qrc"/>
+  <include location="../resources/ansmine.qrc"/>
  </resources>
  <connections>
   <connection>

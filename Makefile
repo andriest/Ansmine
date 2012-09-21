@@ -127,6 +127,30 @@ Ansmined/fast:
 	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/build
 .PHONY : Ansmined/fast
 
+qrc_ansmine.o: qrc_ansmine.cxx.o
+.PHONY : qrc_ansmine.o
+
+# target to build an object file
+qrc_ansmine.cxx.o:
+	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.o
+.PHONY : qrc_ansmine.cxx.o
+
+qrc_ansmine.i: qrc_ansmine.cxx.i
+.PHONY : qrc_ansmine.i
+
+# target to preprocess a source file
+qrc_ansmine.cxx.i:
+	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.i
+.PHONY : qrc_ansmine.cxx.i
+
+qrc_ansmine.s: qrc_ansmine.cxx.s
+.PHONY : qrc_ansmine.s
+
+# target to generate assembly for a file
+qrc_ansmine.cxx.s:
+	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.s
+.PHONY : qrc_ansmine.cxx.s
+
 src/ansmine.o: src/ansmine.cpp.o
 .PHONY : src/ansmine.o
 
@@ -281,6 +305,9 @@ help:
 	@echo "... Ansmined"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... qrc_ansmine.o"
+	@echo "... qrc_ansmine.i"
+	@echo "... qrc_ansmine.s"
 	@echo "... src/ansmine.o"
 	@echo "... src/ansmine.i"
 	@echo "... src/ansmine.s"

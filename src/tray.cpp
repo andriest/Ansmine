@@ -18,7 +18,7 @@ Tray::Tray():
 
 Tray::~Tray()
 {
-    
+    delete trayIconMenu;
 }
 
 void Tray::createActions(){
