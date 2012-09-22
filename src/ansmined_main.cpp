@@ -56,7 +56,7 @@ int main(int argc, char** argv)
     
     initSettings();
     
-    Tray tray;
+    Tray tray("http://redmine.digaku.com");
     
 #ifdef Q_WS_MAC
     // in mac we won't any dock icon.

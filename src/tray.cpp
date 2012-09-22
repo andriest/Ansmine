@@ -6,13 +6,17 @@
 #include <QtGui/QAction>
 #include <QtGui/QSystemTrayIcon>
 #include <QtGui/QIcon>
+#include <QtCore/QSettings>
 
 #include "tray.hpp"
 #include "redmine.hpp"
+#include "issue.hpp"
 
-Tray::Tray():
+Tray::Tray(const QString& baseRedmineUrl):
     QWidget(),
-    trayIconMenu(new QMenu(this))
+    trayIconMenu(new QMenu(this)),
+    baseUrl(baseRedmineUrl),
+    issues(new QList<Issue*>())
 {
     this->setWindowIcon(QIcon(":/digaku-logo_16x16x32.png"));
     
@@ -21,15 +25,53 @@ Tray::Tray():
     
     this->hide();
     
-    redmine = new RedmineClient("redmine.digaku.com");
+    loadRedmine();
     
+    QSettings settings;
+    settings.beginGroup("redmine_account");
+    
+    redmine->query(baseUrl + "/issues.json?assigned_to_id=" + settings.value("userId").toString());
 }
 
 Tray::~Tray()
 {
+    
+    foreach(QAction* act, trayIconMenu->actions()){
+        disconnect(act, SIGNAL(triggered()), this, SLOT(onIssueClick()));
+    }
+
     delete trayIconMenu;
+
     disconnect(quitAction, SIGNAL(triggered()), this, SLOT(quit()));
     delete quitAction;
+    
+    unloadRedmine();
+
+    issues->clear();
+    
+    delete issues;
+    
+}
+
+void Tray::loadRedmine()
+{
+    // load redmine client
+    QSettings settings;
+    settings.beginGroup("redmine_account");
+    
+    redmine = new RedmineClient("redmine.digaku.com", 
+                                settings.value("userName").toString(), 
+                                settings.value("userPass").toString());
+    
+    redmine->setUserId(settings.value("userId").toInt());
+    
+    connect(redmine, SIGNAL(issues(const QVariantMap&)), this, SLOT(onIssues(const QVariantMap&)));
+}
+
+void Tray::unloadRedmine()
+{
+    disconnect(redmine, SIGNAL(issues(const QVariantMap&)), this, SLOT(onIssues(const QVariantMap&)));
+    delete redmine;
 }
 
 void Tray::createActions(){
@@ -39,7 +81,6 @@ void Tray::createActions(){
 
 
 void Tray::createTrayIcons(){
-    trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
     
     trayIcon = new QSystemTrayIcon(this);
@@ -51,4 +92,42 @@ void Tray::createTrayIcons(){
 void Tray::quit(){
     this->close();
 }
+
+
+void Tray::onIssues(const QVariantMap& data){
+    foreach(QVariant issuev, data["issues"].toList()){
+        QVariantMap issue = issuev.toMap();
+        
+        Issue* iss = new Issue(issue["id"].toInt(), 
+                               issue["status"].toMap()["name"].toString(),
+                               issue["subject"].toString(), issue["description"].toString());
+        issues->append(iss);
+        
+    }
+    rebuildMenu();
+}
+
+void Tray::onIssueClick(){
+    QAction* act = (QAction*)this->sender();
+    qDebug() << act->text();
+}
+
+void Tray::rebuildMenu(){
+    trayIconMenu->removeAction(quitAction);
+    
+    QList<Issue*>::const_iterator it;
+    
+    for (it = issues->begin(); it != issues->end(); ++it) {
+        Issue* issue = *it;
+        QAction* act = new QAction(issue->toString(), this);
+        connect(act, SIGNAL(triggered()), this, SLOT(onIssueClick()));
+        trayIconMenu->addAction(act);        
+    }
+    
+    
+    trayIconMenu->addSeparator();
+    trayIconMenu->addAction(quitAction);
+}
+
+
 

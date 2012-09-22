@@ -35,6 +35,9 @@ SET( ANSMINED_SOURCES
 	src/redmine.hpp
 	src/login.hpp
 	src/login.cpp
+	src/redmine_model.hpp
+	src/issue.hpp
+	src/issue.cpp
 	)
 
 INCLUDE_DIRECTORIES(
