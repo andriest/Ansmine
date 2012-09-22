@@ -14,6 +14,7 @@
 
 #include "config.hpp"
 #include "tray.hpp"
+#include "login.hpp"
 
 using namespace std;
 
@@ -26,8 +27,20 @@ void initSettings(){
     
     settings.beginGroup("redmine_account");
     
-    if (!settings.contains("userName") || !settings.contains("userPass")) {
+    if (!settings.contains("userName") || !settings.contains("userPass")
+        || !settings.contains("userId")) {
+        LoginDialog loginDlg;
+        loginDlg.show();
         
+        int code = loginDlg.exec();
+        
+        if (code > 0) {
+            qDebug() << "Login failed? code " + code;
+        }
+    }
+    else{
+        qDebug() << "Using Redmine account: " << settings.value("userName").toString() 
+                    << " (" << settings.value("userId").toInt() << ")";
     }
     
 }

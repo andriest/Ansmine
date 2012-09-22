@@ -36,6 +36,7 @@ RedmineClient::~RedmineClient()
     disconnect(m_networkManager, SIGNAL(finished(QNetworkReply*)), 
                this, SLOT(requestCompleted(QNetworkReply *)));
     delete m_networkManager;
+    delete m_req;
 }
 
 
@@ -62,10 +63,15 @@ void RedmineClient::requestCompleted(QNetworkReply* repl)
 {
     if (repl->error() > 0) {
         qDebug() << "Request error code" << repl->error();
+        
+        Q_EMIT failed(repl->url().toString(), repl->error());
+        
     }else{
         QJson::Parser parser;
         bool ok;
         QByteArray data = repl->readAll();
+        
+        Q_EMIT success(data);
         
         QVariantMap result = parser.parse(data, &ok).toMap();
         
@@ -74,9 +80,25 @@ void RedmineClient::requestCompleted(QNetworkReply* repl)
             return;
         }
         
-        qDebug() << "Your issues count " << result["total_count"].toInt();
+        //qDebug() << "Your issues count " << result["total_count"].toInt();
+        
+        if (result.contains("issues")) {
+            onIssues(result);
+        }else if (result.contains("users")){
+            onUsers(result);
+        }
         
     }
+}
+
+void RedmineClient::onIssues(const QVariantMap& data){
+    qDebug() << "issues " << data["total_count"].toInt();
+    Q_EMIT issues(data);
+}
+
+void RedmineClient::onUsers(const QVariantMap &data){
+    qDebug() << "users " << data["total_count"].toInt();
+    Q_EMIT users(data);
 }
 
 void RedmineClient::checkUpdate()
@@ -84,7 +106,10 @@ void RedmineClient::checkUpdate()
     
 }
 
-
+void RedmineClient::query(const QString &url){
+    m_req->setUrl(url);
+    m_networkManager->get(*m_req);
+}
 
 
 

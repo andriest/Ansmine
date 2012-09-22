@@ -5,6 +5,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QVariantMap>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -22,11 +23,22 @@ public:
     void setUserId(int id){
         this->m_userId = id;
     }
-
-public slots:
-    void checkUpdate();
     
-private slots:
+    void query(const QString& url);
+    void onIssues(const QVariantMap& data);
+    void onUsers(const QVariantMap& data);
+
+Q_SIGNALS:
+    void success(const QByteArray& data);
+    void failed(const QString& url, int errorCode);
+    void issues(const QVariantMap& data);
+    void users(const QVariantMap& data);
+
+public Q_SLOTS:
+    void checkUpdate();
+
+    
+private Q_SLOTS:
     void requestCompleted(QNetworkReply* repl);
     
 private:

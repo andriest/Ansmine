@@ -7,3 +7,5 @@ CMakeScripts/
 Ansmine.xcodeproj/
 Ansmine.build/
 ui_*.h
+qrc_*
+build/*/Makefile
