@@ -164,7 +164,13 @@ void Tray::onIssues(const QVariantMap& data){
             }else if(statusChanged){
                 
                 trayIcon->showMessage(updateTitle, QString("Status changed to: %1").arg(status));
-                playSound("general");
+
+                if (status.toLower() == "closed" || status.toLower() == "resolved") {
+                    playSound("task-done");
+                }else{
+                    playSound("general");
+                }
+                
                 iss->setStatus(status);
                 
             }else if(subjectChanged){
@@ -205,6 +211,7 @@ void Tray::onIssues(const QVariantMap& data){
             Issue* iss = issues->getById(*it);
             if (iss != 0) {
                 
+                playSound("task-done");
                 trayIcon->showMessage("Task Closed/Resolved", QString("#%1 %2").arg(iss->getId()).arg(iss->getSubject()));
                 
                 issues->removeOne(iss);
