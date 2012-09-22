@@ -10,21 +10,24 @@
 
 class Issue: public RedmineModel {
 public:
-    Issue(): 
+    Issue(const QString& baseUrl): 
+        RedmineModel(baseUrl),
         m_id(0),
         m_doneRatio(0)
     {
         
     }
     
-    Issue(int id):
+    Issue(const QString& baseUrl, int id):
+        RedmineModel(baseUrl),
         m_id(id),
         m_doneRatio(0)
     {
         
     }
     
-    Issue(int id, const QString& subject, const QString& desc):
+    Issue(const QString& baseUrl, int id, const QString& subject, const QString& desc):
+        RedmineModel(baseUrl),
         m_id(id),
         m_doneRatio(0),
         m_subject(subject), 
@@ -33,7 +36,8 @@ public:
         
     }
 
-    Issue(int id, const QString& status, const QString& subject, const QString& desc):
+    Issue(const QString& baseUrl, int id, const QString& status, const QString& subject, const QString& desc):
+        RedmineModel(baseUrl),
         m_id(id),
         m_doneRatio(0),
         m_status(status),
@@ -44,7 +48,12 @@ public:
     }
     
     ~Issue(){
-        qDebug() << "issue " << m_id << " destroyed";
+        qDebug() << "issue " << m_id << " memory freed.";
+    }
+    
+    void open();
+    int getId(){
+        return m_id;
     }
     
     const QString toString(){

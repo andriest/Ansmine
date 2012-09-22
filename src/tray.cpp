@@ -47,6 +47,12 @@ Tray::~Tray()
     
     unloadRedmine();
 
+    // clean up issues memory
+    QList<Issue*>::const_iterator it;
+    for (it = issues->begin(); it != issues->end(); ++it) {
+        delete *it;
+    }
+    
     issues->clear();
     
     delete issues;
@@ -98,7 +104,8 @@ void Tray::onIssues(const QVariantMap& data){
     foreach(QVariant issuev, data["issues"].toList()){
         QVariantMap issue = issuev.toMap();
         
-        Issue* iss = new Issue(issue["id"].toInt(), 
+        Issue* iss = new Issue(baseUrl,
+                               issue["id"].toInt(), 
                                issue["status"].toMap()["name"].toString(),
                                issue["subject"].toString(), issue["description"].toString());
         issues->append(iss);
@@ -109,7 +116,21 @@ void Tray::onIssues(const QVariantMap& data){
 
 void Tray::onIssueClick(){
     QAction* act = (QAction*)this->sender();
-    qDebug() << act->text();
+    
+    QString text = act->text();
+    qDebug() << text;
+    
+    int id = text.mid(1, text.indexOf(' ')).toInt();
+
+    QList<Issue*>::const_iterator it;
+    
+    for (it = issues->begin(); it != issues->end(); ++it) {
+        if ((*it)->getId() == id) {
+            (*it)->open();
+            break;
+        }
+    }
+    
 }
 
 void Tray::rebuildMenu(){
