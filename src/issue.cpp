@@ -14,3 +14,5 @@ void Issue::open(){
     QUrl url(QString("%1/issues/%2").arg(getBaseUrl()).arg(m_id));
     qds.openUrl(url);
 }
+
+

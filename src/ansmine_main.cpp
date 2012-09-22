@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <QtCore/QProcess>
+
 #include "config.hpp"
 #include "ansmine.hpp"
 

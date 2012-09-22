@@ -9,13 +9,15 @@
 #include <QtCore/QVariantMap>
 #include <QtCore/QList>
 
-#include "issue.hpp"
+//#include "issue.hpp"
 
 class QMenu;
 class QAction;
 class QSystemTrayIcon;
 //class QWidget;
 class RedmineClient;
+class QTimer;
+class IssueContainer;
 
 class Tray: public QWidget 
 {
@@ -25,10 +27,13 @@ public:
     Tray(const QString& baseRedmineUrl);
     ~Tray();
     
+    void playSound(const QString& name);
+    
 public slots:
     void quit();
     void onIssues(const QVariantMap& data);
     void onIssueClick();
+    void update();
     
 private:
     void createActions();
@@ -42,7 +47,12 @@ private:
     QSystemTrayIcon* trayIcon;
     RedmineClient* redmine;
     const QString baseUrl;
-    QList<Issue*>* issues;
+    IssueContainer* issues;
+    QTimer* updateTimer;
+    int userId;
+    QString userName;
+    QString userPass;
+    bool firstRun;
 };
 
 

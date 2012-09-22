@@ -10,25 +10,16 @@
 
 class Issue: public RedmineModel {
 public:
-    Issue(const QString& baseUrl): 
-        RedmineModel(baseUrl),
-        m_id(0),
-        m_doneRatio(0)
-    {
-        
-    }
     
     Issue(const QString& baseUrl, int id):
-        RedmineModel(baseUrl),
-        m_id(id),
+        RedmineModel(baseUrl, id),
         m_doneRatio(0)
     {
         
     }
     
     Issue(const QString& baseUrl, int id, const QString& subject, const QString& desc):
-        RedmineModel(baseUrl),
-        m_id(id),
+        RedmineModel(baseUrl, id),
         m_doneRatio(0),
         m_subject(subject), 
         m_desc(desc)
@@ -37,8 +28,7 @@ public:
     }
 
     Issue(const QString& baseUrl, int id, const QString& status, const QString& subject, const QString& desc):
-        RedmineModel(baseUrl),
-        m_id(id),
+        RedmineModel(baseUrl, id),
         m_doneRatio(0),
         m_status(status),
         m_subject(subject), 
@@ -52,8 +42,21 @@ public:
     }
     
     void open();
-    int getId(){
-        return m_id;
+    
+    inline const QString& getStatus(){
+        return m_status;
+    }
+    inline const QString& getSubject(){
+        return m_subject;
+    }
+    inline const QString& getDesc(){
+        return m_desc;
+    }
+    inline void setStatus(const QString& status){
+        m_status = status;
+    }
+    inline void setSubject(const QString& subject){
+        m_subject = subject;
     }
     
     const QString toString(){
@@ -63,13 +66,19 @@ public:
     }
     
 private:
-    int m_id;
     int m_doneRatio;
     QString m_status;
     QString m_subject;
     QString m_desc;
     QString m_tracker;
 };
+
+class IssueContainer: public RedmineModelContainer<Issue>
+{
+public:
+    IssueContainer(): RedmineModelContainer<Issue>(){};
+};
+
 
 #endif // __ISSUE_HPP__
 

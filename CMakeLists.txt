@@ -36,6 +36,7 @@ SET( ANSMINED_SOURCES
 	src/login.hpp
 	src/login.cpp
 	src/redmine_model.hpp
+	src/redmine_model.cpp
 	src/issue.hpp
 	src/issue.cpp
 	)
@@ -85,11 +86,14 @@ IF( APPLE )
 		)
 	
 	ADD_CUSTOM_COMMAND( TARGET ${PROGNAME} POST_BUILD 
+		DEPENDS ${PROGNAME}d
 		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources
 		COMMAND cp ARGS ${CMAKE_CURRENT_SOURCE_DIR}/resources/digaku-logo.icns ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources	
 		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Frameworks
 		COMMAND cp ARGS ${QJSON_LIBRARIY_DIR}/libqjson.* ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Frameworks/
 		COMMAND macdeployqt ARGS ${PROGNAME}.app
+		COMMAND cp ARGS ${CMAKE_CURRENT_SOURCE_DIR}/resources/*.wav ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources/
+		COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}d ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/MacOS/
 		)
 		
 	# For Ansmine Daemon
@@ -97,7 +101,7 @@ IF( APPLE )
 	ADD_EXECUTABLE(${PROGNAME}d src/ansmined_main.cpp 
 		${ANSMINE_UI_HEADERS}
 		${ANSMINED_SOURCES} 
-		${ANSMINED_MOC} 
+		${ANSMINED_MOC}
 		${ANSMINE_RESOURCES}
 		)
 
