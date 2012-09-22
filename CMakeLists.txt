@@ -32,6 +32,9 @@ SET( ANSMINE_SOURCES
 SET( ANSMINED_SOURCES
 	src/tray.hpp
 	src/tray.cpp
+	src/redmine.hpp
+	src/login.hpp
+	src/login.cpp
 	)
 
 INCLUDE_DIRECTORIES(
@@ -50,11 +53,18 @@ QT4_WRAP_CPP(ANSMINE_MOC
 	)
 QT4_WRAP_CPP(ANSMINED_MOC 
 	src/tray.hpp
+	src/redmine.hpp
+	src/login.hpp
+	)
+QT4_WRAP_CPP(REDMINE_CLIENT_MOC 
+	src/redmine.hpp
 	)
 QT4_ADD_RESOURCES(ANSMINE_RESOURCES
 	resources/ansmine.qrc
 	)
 	
+ADD_LIBRARY(RedmineClient src/redmine.cpp ${REDMINE_CLIENT_MOC})
+
 IF( APPLE )
 	SET(PROGNAME Ansmine)
 	SET(MACOSX_BUNDLE_ICON_FILE digaku-logo.icns)
@@ -87,6 +97,7 @@ IF( APPLE )
 	ADD_EXECUTABLE(${PROGNAME}d src/ansmined_main.cpp ${ANSMINED_SOURCES} ${ANSMINED_MOC} ${ANSMINE_RESOURCES})
 
 	TARGET_LINK_LIBRARIES(${PROGNAME}d
+		RedmineClient
 		${QT_LIBRARIES}
 		${QJSON_LIBRARY}
 		${CARBON_LIBRARY}
@@ -105,6 +116,7 @@ ELSE( APPLE )
 	ADD_EXECUTABLE(${PROGNAME}d src/ansmined_main.cpp ${ANSMINED_SOURCES} ${ANSMINED_MOC} ${ANSMINE_RESOURCES})
 
 	TARGET_LINK_LIBRARIES(${PROGNAME}d
+		RedmineClient
 		${QT_LIBRARIES}
 		${QJSON_LIBRARY}
 		)

@@ -11,6 +11,7 @@ class QMenu;
 class QAction;
 class QSystemTrayIcon;
 //class QWidget;
+class RedmineClient;
 
 class Tray: public QWidget 
 {
@@ -30,6 +31,7 @@ private:
     QMenu* trayIconMenu;
     QAction* quitAction;
     QSystemTrayIcon* trayIcon;
+    RedmineClient* redmine;
 };
 
 

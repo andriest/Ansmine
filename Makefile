@@ -188,6 +188,19 @@ Ansmined/fast:
 	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/build
 .PHONY : Ansmined/fast
 
+#=============================================================================
+# Target rules for targets named RedmineClient
+
+# Build rule for target.
+RedmineClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 RedmineClient
+.PHONY : RedmineClient
+
+# fast build rule for target.
+RedmineClient/fast:
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/build
+.PHONY : RedmineClient/fast
+
 qrc_ansmine.o: qrc_ansmine.cxx.o
 .PHONY : qrc_ansmine.o
 
@@ -311,6 +324,33 @@ src/moc_ansmine.cxx.s:
 	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.s
 .PHONY : src/moc_ansmine.cxx.s
 
+src/moc_redmine.o: src/moc_redmine.cxx.o
+.PHONY : src/moc_redmine.o
+
+# target to build an object file
+src/moc_redmine.cxx.o:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_redmine.cxx.o
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/moc_redmine.cxx.o
+.PHONY : src/moc_redmine.cxx.o
+
+src/moc_redmine.i: src/moc_redmine.cxx.i
+.PHONY : src/moc_redmine.i
+
+# target to preprocess a source file
+src/moc_redmine.cxx.i:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_redmine.cxx.i
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/moc_redmine.cxx.i
+.PHONY : src/moc_redmine.cxx.i
+
+src/moc_redmine.s: src/moc_redmine.cxx.s
+.PHONY : src/moc_redmine.s
+
+# target to generate assembly for a file
+src/moc_redmine.cxx.s:
+	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_redmine.cxx.s
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/moc_redmine.cxx.s
+.PHONY : src/moc_redmine.cxx.s
+
 src/moc_tray.o: src/moc_tray.cxx.o
 .PHONY : src/moc_tray.o
 
@@ -334,6 +374,30 @@ src/moc_tray.s: src/moc_tray.cxx.s
 src/moc_tray.cxx.s:
 	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.s
 .PHONY : src/moc_tray.cxx.s
+
+src/redmine.o: src/redmine.cpp.o
+.PHONY : src/redmine.o
+
+# target to build an object file
+src/redmine.cpp.o:
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/redmine.cpp.o
+.PHONY : src/redmine.cpp.o
+
+src/redmine.i: src/redmine.cpp.i
+.PHONY : src/redmine.i
+
+# target to preprocess a source file
+src/redmine.cpp.i:
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/redmine.cpp.i
+.PHONY : src/redmine.cpp.i
+
+src/redmine.s: src/redmine.cpp.s
+.PHONY : src/redmine.s
+
+# target to generate assembly for a file
+src/redmine.cpp.s:
+	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/redmine.cpp.s
+.PHONY : src/redmine.cpp.s
 
 src/tray.o: src/tray.cpp.o
 .PHONY : src/tray.o
@@ -367,6 +431,7 @@ help:
 	@echo "... depend"
 	@echo "... Ansmine"
 	@echo "... Ansmined"
+	@echo "... RedmineClient"
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
@@ -390,9 +455,15 @@ help:
 	@echo "... src/moc_ansmine.o"
 	@echo "... src/moc_ansmine.i"
 	@echo "... src/moc_ansmine.s"
+	@echo "... src/moc_redmine.o"
+	@echo "... src/moc_redmine.i"
+	@echo "... src/moc_redmine.s"
 	@echo "... src/moc_tray.o"
 	@echo "... src/moc_tray.i"
 	@echo "... src/moc_tray.s"
+	@echo "... src/redmine.o"
+	@echo "... src/redmine.i"
+	@echo "... src/redmine.s"
 	@echo "... src/tray.o"
 	@echo "... src/tray.i"
 	@echo "... src/tray.s"

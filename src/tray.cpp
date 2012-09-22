@@ -8,16 +8,21 @@
 #include <QtGui/QIcon>
 
 #include "tray.hpp"
+#include "redmine.hpp"
 
 Tray::Tray():
     QWidget(),
     trayIconMenu(new QMenu(this))
 {
     this->setWindowIcon(QIcon(":/digaku-logo_16x16x32.png"));
+    
     createActions();
     createTrayIcons();
     
     this->hide();
+    
+    redmine = new RedmineClient("redmine.digaku.com");
+    
 }
 
 Tray::~Tray()
