@@ -48,7 +48,7 @@ Tray::Tray(const QString& baseRedmineUrl):
     
     updateTimer->start();
     
-    playSound("new-task");
+    //playSound("new-task");
     
     trayIcon->showMessage("app dir", QCoreApplication::applicationDirPath());
 }
@@ -154,11 +154,24 @@ void Tray::onIssues(const QVariantMap& data){
                 trayIcon->showMessage(updateTitle, QString("Status and subject changed. Status: %1, Subject: %2").arg(status).arg(subject));
                 iss->setStatus(status);
                 iss->setSubject(subject);
+                
+                if (status.toLower() == "closed" || status.toLower() == "resolved") {
+                    playSound("task-done");
+                }else{
+                    playSound("general");
+                }
+                
             }else if(statusChanged){
+                
                 trayIcon->showMessage(updateTitle, QString("Status changed to: %1").arg(status));
+                playSound("general");
                 iss->setStatus(status);
+                
             }else if(subjectChanged){
+                
                 trayIcon->showMessage(updateTitle, QString("Subject changed to: %1").arg(subject));
+                playSound("general");
+                
                 iss->setSubject(subject);
             }
             
@@ -207,11 +220,11 @@ void Tray::onIssues(const QVariantMap& data){
 }
 
 void Tray::playSound(const QString &name){
-    QString path = QCoreApplication::applicationDirPath() + "../Resources/" + name + ".wav";
+    QString path = QCoreApplication::applicationDirPath() + "/../Resources/" + name + ".wav";
     QDir dir;
     
     if (!dir.exists(path)) {
-        path = QCoreApplication::applicationDirPath() + "../resources/" + name + ".wav";
+        path = QCoreApplication::applicationDirPath() + "/../resources/" + name + ".wav";
     }
     if (!dir.exists(path)) {
         path = QCoreApplication::applicationDirPath() + "/" + name + ".wav";
@@ -221,6 +234,7 @@ void Tray::playSound(const QString &name){
     }
     if (!dir.exists(path)) {
         qDebug() << "Cannot find sound for " << name + ".wav";
+        qDebug() << "app dir " << QCoreApplication::applicationDirPath();
         return;
     }
     QSound::play(path);
