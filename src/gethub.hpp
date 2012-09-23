@@ -17,18 +17,18 @@ class GethubClient: public QObject
     
 public:
     GethubClient(): m_socket(0), authorized(false),
-        connected(false)
+        _connected(false)
     {};
     GethubClient(const QString& host, int port): 
         m_socket(0),
         m_host(host), m_port(port),
-        authorized(false), connected(false)
+        authorized(false), _connected(false)
     {};
     ~GethubClient();
     
     void start();
     
-    bool isConnected(){ return connected; }
+    bool isConnected(){ return _connected; }
     bool isAuthorized(){ return authorized; }
     
     void join(const QString& channelName);
@@ -36,7 +36,9 @@ public:
     void message(const QString& channelName, const QString& _message);
     
 signals:
+    void onReady();
     void onMessage(const QString& channelName, const QString& userName, const QString& message);
+    void onJoin(const QString& channelName);
     
 private slots:
 //    void requestCompleted(QNetworkReply* repl);
@@ -57,7 +59,7 @@ private:
     int m_port;
     QString sessionId;
     bool authorized;
-    bool connected;
+    bool _connected;
     
 };
 

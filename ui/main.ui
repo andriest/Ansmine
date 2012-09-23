@@ -34,11 +34,10 @@
           <item>
            <widget class="QLabel" name="label">
             <property name="styleSheet">
-             <string notr="true">font-size: 20px;
-color: rgb(127, 136, 204);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
-             <string>Ansmine (C) 2012 Ansvia Inc.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600; color:#4094b5;&quot;&gt;Ansmine&lt;/span&gt; &amp;copy; 2012 Ansvia Inc.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -85,23 +84,34 @@ color: rgb(127, 136, 204);</string>
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QTextEdit" name="txtChat"/>
-            </item>
-            <item>
-             <widget class="QListView" name="lstOnlineUsers">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>110</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QTextEdit" name="txtChat"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="txtChatInput"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListView" name="lstOnlineUsers">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>110</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

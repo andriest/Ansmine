@@ -31,6 +31,9 @@ private slots:
     void testConnection();
     void testSuccess(const QByteArray& data);
     void testFailed(const QString& url, int errorCode);
+    void onGethubConnected();
+    void onGethubGotMessage(const QString& channelName, const QString& userName, const QString& message);
+    void onGethubJoin(const QString&);
 
 private:
     void init();

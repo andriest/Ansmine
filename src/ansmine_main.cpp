@@ -45,7 +45,9 @@ int main(int argc, char** argv)
     
     QApplication app(argc, argv);
     
-    if ( !(argc > 1 && QString(argv[1]) == "--multi") ) {
+    QStringList args = QApplication::arguments();
+    
+    if ( !args.contains("--multi") ) {
         // detect is already running.
         QSharedMemory mem("AnsminePid");
         if (!mem.create(1)) {

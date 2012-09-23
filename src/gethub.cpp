@@ -57,9 +57,10 @@ void GethubClient::onDisconnected(){
 void GethubClient::onReadyRead(){
     qDebug() << "gethub connection ready";
     
-    connected = true;
+    _connected = true;
     
     while (m_socket->canReadLine()) {
+        
         QString line = QString::fromUtf8(m_socket->readLine()).trimmed();
         
         QJson::Parser parser;
@@ -78,6 +79,8 @@ void GethubClient::onReadyRead(){
                 sessionId = result["sessid"].toString();
                 qDebug() << "Session id: " << sessionId;
                 authorized = true;
+                
+                Q_EMIT onReady();
             }
             else{
                 QString ns = result["ns"].toString();
@@ -88,6 +91,16 @@ void GethubClient::onReadyRead(){
                     QString chatMessage = result["message"].toString();
 
                     Q_EMIT onMessage(channelName, userName, chatMessage);
+                    
+                }else if(ns == "chat::join"){
+                    
+                    QString channelName = result["channel"].toString();
+                    
+                    Q_EMIT onJoin(channelName);
+                    
+                }else{
+                    qDebug() << "unhandled server data :";
+                    qDebug() << line;
                 }
             }
             
@@ -98,17 +111,20 @@ void GethubClient::onReadyRead(){
     
 }
 
+
+
 void GethubClient::join(const QString& channelName){
     QByteArray ba = NS_JOIN.arg(channelName).arg(sessionId).toLocal8Bit();
     const char* data = ba.data();
     m_socket->write(data, strlen(data));
+    m_socket->flush();
 }
 
 void GethubClient::bind(const QString& channelName){
     QByteArray ba = NS_BIND.arg(channelName).arg(sessionId).toLocal8Bit();
     const char* data = ba.data();
     m_socket->write(data, strlen(data));
-    
+    m_socket->flush();
 }
 
 void GethubClient::message(const QString& channelName, const QString& _message){

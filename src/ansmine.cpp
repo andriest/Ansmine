@@ -40,6 +40,10 @@ AnsmineMainwindow::~AnsmineMainwindow(){
     issues->clear();
     delete issues;
     
+    disconnect(gethub, SIGNAL(onReady()), this, SLOT(onGethubConnected()));
+    disconnect(gethub, SIGNAL(onMessage(const QString&, const QString&, const QString&)), this, SLOT(onGethubGotMessage(const QString&, const QString&, const QString&)));
+    disconnect(gethub, SIGNAL(onJoin(const QString&)), this, SLOT(onGethubJoin(const QString&)));
+    
     delete gethub;
 }
 
@@ -94,6 +98,11 @@ void AnsmineMainwindow::init(){
     
     // setup chat
     gethub = new GethubClient("127.0.0.1", 6060);
+    
+    connect(gethub, SIGNAL(onReady()), this, SLOT(onGethubConnected()));
+    connect(gethub, SIGNAL(onMessage(const QString&, const QString&, const QString&)), this, SLOT(onGethubGotMessage(const QString&, const QString&, const QString&)));
+    connect(gethub, SIGNAL(onJoin(const QString&)), this, SLOT(onGethubJoin(const QString&)));
+    
     gethub->start();
     
 }
@@ -163,9 +172,9 @@ void AnsmineMainwindow::mainTabChanged(int index){
     QString newUserName = txtUserName->text();
     QString newUserPass = txtPassword->text();
     
-    qDebug() << "newHost: " << newHost;
-    qDebug() << "newUserName: " << newUserName;
-    qDebug() << "newUserPass: " << newUserPass;
+    //qDebug() << "newHost: " << newHost;
+    //qDebug() << "newUserName: " << newUserName;
+//    qDebug() << "newUserPass: " << newUserPass;
     
     if (newHost.length() > 0 && newUserName.length() > 0 && newUserPass.length() > 0) {
         if (newHost != host || newUserName != userName || newUserPass != userPass) {
@@ -274,6 +283,21 @@ void AnsmineMainwindow::onDisconnectButtonClicked(){
     model->clear();
 }
 
+void AnsmineMainwindow::onGethubConnected(){
+    qDebug() << "GethubClient: do joining...";
+    gethub->join("ansmine");
+    
+}
+
+void AnsmineMainwindow::onGethubGotMessage(const QString& channelName, const QString& userName, const QString& message){
+//    QString currentText = txtChat->document()->toPlainText();
+    txtChat->append(QString("%1: %2").arg(userName).arg(message));
+}
+
+void AnsmineMainwindow::onGethubJoin(const QString& channelName){
+    qDebug() << "GethubClient: do binding...";
+    gethub->bind(channelName);
+}
 
 
 
