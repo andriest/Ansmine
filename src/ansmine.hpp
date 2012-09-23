@@ -12,6 +12,7 @@ class QWidget;
 class RedmineClient;
 class IssueContainer;
 class QStandardItemModel;
+class GethubClient;
 
 class AnsmineMainwindow: public QMainWindow, private Ui::MainWindow {
     Q_OBJECT
@@ -46,6 +47,7 @@ private:
     IssueContainer* issues;
     QStandardItemModel* model;
     bool inTestConnection;
+    GethubClient* gethub;
 };
 
 

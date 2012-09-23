@@ -161,7 +161,7 @@ void RedmineClient::setAccount(const QString& _userName, const QString& _userPas
     
     QByteArray basicAuth(QString(userName + ":" + userPass).toAscii());
     
-    qDebug() << "basicAuth: " << QString(userName + ":" + userPass);
+//    qDebug() << "basicAuth: " << QString(userName + ":" + userPass);
     
     m_req->setRawHeader("Authorization", "Basic " + basicAuth.toBase64());
 }

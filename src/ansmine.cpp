@@ -12,6 +12,7 @@
 #include "ansmine.hpp"
 #include "redmine.hpp"
 #include "issue.hpp"
+#include "gethub.hpp"
 
 
 AnsmineMainwindow::AnsmineMainwindow(QObject* parent):
@@ -39,6 +40,8 @@ AnsmineMainwindow::~AnsmineMainwindow(){
     
     issues->clear();
     delete issues;
+    
+    delete gethub;
 }
 
 void AnsmineMainwindow::init(){
@@ -51,8 +54,6 @@ void AnsmineMainwindow::init(){
     userName = sett.value("userName").toString();
     userPass = sett.value("userPass").toString();
     baseRedmineUrl = "http://" + host;
-    
-    qDebug() << "userPass: " << userPass;
     
     redmine = new RedmineClient(host, userName, userPass);
     redmine->setUserId(userId);
@@ -91,6 +92,10 @@ void AnsmineMainwindow::init(){
     qDebug() << "queryStr: " << queryStr;
     
     redmine->query(queryStr);
+    
+    // setup chat
+    gethub = new GethubClient("127.0.0.1", 6060);
+    gethub->start();
     
 }
 

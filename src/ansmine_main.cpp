@@ -28,7 +28,7 @@ void initSettings(){
     }
     else{
         qDebug() << "Using Redmine account: " << settings.value("userName").toString() 
-        << " (" << settings.value("userId").toInt() << ")" << settings.value("userPass").toString();
+        << " (" << settings.value("userId").toInt() << ")";
     }
     
     if (!settings.contains("host")) {
@@ -45,11 +45,15 @@ int main(int argc, char** argv)
     
     QApplication app(argc, argv);
     
-    // detect is already running.
-    QSharedMemory mem("AnsminePid");
-    if (!mem.create(1)) {
-        qDebug() << "Another instance already running";
-        return 1;
+    if ( !(argc > 1 && QString(argv[1]) == "--multi") ) {
+        // detect is already running.
+        QSharedMemory mem("AnsminePid");
+        if (!mem.create(1)) {
+            qDebug() << "Another instance already running";
+            return 1;
+        }
+    }else{
+        qDebug() << "multiple instance allowed";
     }
     
     initSettings();
