@@ -7,10 +7,12 @@
 #include <QtGui/QSystemTrayIcon>
 #include <QtGui/QIcon>
 #include <QtGui/QSound>
+#include <QtCore/QProcess>
 #include <QtCore/QTimer>
 #include <QtCore/QSettings>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+
 
 #include "tray.hpp"
 #include "redmine.hpp"
@@ -62,7 +64,10 @@ Tray::~Tray()
 
     delete trayIconMenu;
 
+    disconnect(openAction, SIGNAL(triggered()), this, SLOT(openMainWindow()));
     disconnect(quitAction, SIGNAL(triggered()), this, SLOT(quit()));
+
+    delete openAction;
     delete quitAction;
     
     unloadRedmine();
@@ -108,7 +113,10 @@ void Tray::unloadRedmine()
 
 void Tray::createActions(){
     quitAction = new QAction(tr("Quit"), this);
+    openAction = new QAction(tr("Open"), this);
+    
     connect(quitAction, SIGNAL(triggered()), this, SLOT(quit()));
+    connect(openAction, SIGNAL(triggered()), this, SLOT(openMainWindow()));
 }
 
 
@@ -121,9 +129,17 @@ void Tray::createTrayIcons(){
     trayIcon->show();
 }
 
+void Tray::openMainWindow(){
+    QProcess ps;
+    QString path = QCoreApplication::applicationDirPath() + "/Ansmine";
+    ps.startDetached(path, QStringList(), QCoreApplication::applicationDirPath());
+}
+
+
 void Tray::quit(){
     this->close();
 }
+
 
 
 void Tray::onIssues(const QVariantMap& data){
@@ -276,6 +292,7 @@ void Tray::rebuildMenu(){
     
     
     trayIconMenu->addSeparator();
+    trayIconMenu->addAction(openAction);
     trayIconMenu->addAction(quitAction);
 }
 

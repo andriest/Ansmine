@@ -127,7 +127,7 @@ IF( APPLE )
 		COMMAND cp ARGS ${CMAKE_CURRENT_SOURCE_DIR}/resources/digaku-logo.icns ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources	
 		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Frameworks
 		COMMAND cp ARGS ${QJSON_LIBRARIY_DIR}/libqjson.* ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Frameworks/
-		COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}d.app/Contents/MacOS/${PROGNAME}d ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/MacOS/ 2 > /dev/null || :
+		COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}d.app/Contents/MacOS/${PROGNAME}d ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/MacOS/ 
 		COMMAND macdeployqt ARGS ${PROGNAME}.app
 		COMMAND cp ARGS ${CMAKE_CURRENT_SOURCE_DIR}/resources/*.wav ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app/Contents/Resources/
 		)

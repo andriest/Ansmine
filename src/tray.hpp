@@ -34,6 +34,7 @@ public slots:
     void onIssues(const QVariantMap& data);
     void onIssueClick();
     void update();
+    void openMainWindow();
     
 private:
     void createActions();
@@ -44,6 +45,7 @@ private:
     
     QMenu* trayIconMenu;
     QAction* quitAction;
+    QAction* openAction;
     QSystemTrayIcon* trayIcon;
     RedmineClient* redmine;
     const QString baseUrl;
