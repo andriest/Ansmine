@@ -42,7 +42,7 @@ AnsmineMainwindow::~AnsmineMainwindow(){
     
     disconnect(gethub, SIGNAL(onReady()), this, SLOT(onGethubConnected()));
     disconnect(gethub, SIGNAL(onMessage(const QString&, const QString&, const QString&)), this, SLOT(onGethubGotMessage(const QString&, const QString&, const QString&)));
-    disconnect(gethub, SIGNAL(onJoin(const QString&)), this, SLOT(onGethubJoin(const QString&)));
+    disconnect(gethub, SIGNAL(onJoin(const QString&, const QStringList&)), this, SLOT(onGethubJoin(const QString&, const QStringList&)));
     
     delete gethub;
 }
@@ -70,6 +70,9 @@ void AnsmineMainwindow::init(){
     model = new QStandardItemModel();
     issueListView->setModel(model);
     
+    chatOnlineUsersModel = new QStandardItemModel();
+    lstOnlineUsers->setModel(chatOnlineUsersModel);
+    
 
     connect(btnAuthorize, SIGNAL(clicked()), this, SLOT(onAuthorizeButtonClicked()));
     
@@ -78,6 +81,8 @@ void AnsmineMainwindow::init(){
     //txtPassword->setText(userPass);
     
     txtPassword->setEchoMode(QLineEdit::Password);
+    
+    txtChat->setReadOnly(true);
     
     connect(btnTest, SIGNAL(clicked()), this, SLOT(testConnection()));
     
@@ -101,7 +106,7 @@ void AnsmineMainwindow::init(){
     
     connect(gethub, SIGNAL(onReady()), this, SLOT(onGethubConnected()));
     connect(gethub, SIGNAL(onMessage(const QString&, const QString&, const QString&)), this, SLOT(onGethubGotMessage(const QString&, const QString&, const QString&)));
-    connect(gethub, SIGNAL(onJoin(const QString&)), this, SLOT(onGethubJoin(const QString&)));
+    connect(gethub, SIGNAL(onJoin(const QString&, const QStringList&)), this, SLOT(onGethubJoin(const QString&, const QStringList&)));
     
     gethub->start();
     
@@ -294,8 +299,15 @@ void AnsmineMainwindow::onGethubGotMessage(const QString& channelName, const QSt
     txtChat->append(QString("%1: %2").arg(userName).arg(message));
 }
 
-void AnsmineMainwindow::onGethubJoin(const QString& channelName){
+void AnsmineMainwindow::onGethubJoin(const QString& channelName, const QStringList& participantns){
     qDebug() << "GethubClient: do binding...";
+    
+    foreach(QString uname, participantns){
+        QStandardItem* item = new QStandardItem(uname);
+        item->setEditable(false);
+        chatOnlineUsersModel->appendRow(item);
+    }
+    
     gethub->bind(channelName);
 }
 

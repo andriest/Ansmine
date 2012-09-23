@@ -5,6 +5,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 
 //class QNetworkAccessManager;
 //class QNetworkReply;
@@ -34,11 +35,13 @@ public:
     void join(const QString& channelName);
     void bind(const QString& channelName);
     void message(const QString& channelName, const QString& _message);
+    void channelMessages(const QString& channelName);
     
 signals:
     void onReady();
     void onMessage(const QString& channelName, const QString& userName, const QString& message);
-    void onJoin(const QString& channelName);
+    void onJoin(const QString& channelName, const QStringList& participants);
+    void onChannelMessages(const QString& channelName, const QString& messages);
     
 private slots:
 //    void requestCompleted(QNetworkReply* repl);

@@ -4,6 +4,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QTcpSocket>
+#include <QtCore/QStringList>
 #include <qjson/parser.h>
 
 #include "gethub.hpp"
@@ -12,6 +13,7 @@
 #define NS_JOIN QString("{\"ns\":\"chat::join\",\"version\":1,\"id\":\"123\",\"channel\":\"%1\",\"sessid\":\"%2\"}\n")
 #define NS_BIND QString("{\"ns\":\"chat::bind\",\"version\":1,\"id\":\"123\",\"channel\":\"%1\",\"sessid\":\"%2\"}\n")
 #define NS_MESSAGE QString("{\"ns\":\"chat::message\",\"version\":1,\"id\":\"123\",\"channel\":\"%1\",\"message\":\"%2\",\"sessid\":\"%3\"}\n")
+#define NS_CHANNEL_MESSAGES QString("{\"ns\":\"chat::channel::messages\",\"version\":1,\"id\":\"123\",\"channel\":\"%1\",\"sessid\":\"%2\"}\n")
 
 GethubClient::~GethubClient()
 {
@@ -95,8 +97,24 @@ void GethubClient::onReadyRead(){
                 }else if(ns == "chat::join"){
                     
                     QString channelName = result["channel"].toString();
+                    QVariantList participantsv = result["participants"].toList();
                     
-                    Q_EMIT onJoin(channelName);
+                    QStringList participants;
+                    
+                    foreach(QVariant v, participantsv){
+                        QString user = v.toString();
+                        participants.append(user);
+                    }
+                    
+                    
+                    Q_EMIT onJoin(channelName, participants);
+                    
+                }else if(ns == "chat::channel::messages"){
+                    
+                    QString channelName = result["channel"].toString();
+                    QString messages = result["messages"].toString();
+                    
+                    Q_EMIT onChannelMessages(channelName, messages);
                     
                 }else{
                     qDebug() << "unhandled server data :";
@@ -131,9 +149,15 @@ void GethubClient::message(const QString& channelName, const QString& _message){
     QByteArray ba = NS_MESSAGE.arg(channelName).arg(_message).arg(sessionId).toLocal8Bit();
     const char* data = ba.data();
     m_socket->write(data, strlen(data));
+    m_socket->flush();
 }
 
-
+void GethubClient::channelMessages(const QString& channelName){
+    QByteArray ba = NS_CHANNEL_MESSAGES.arg(channelName).arg(sessionId).toLocal8Bit();
+    const char* data = ba.data();
+    m_socket->write(data, strlen(data));    
+    m_socket->flush();
+}
 
 
 

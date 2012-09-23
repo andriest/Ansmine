@@ -33,7 +33,7 @@ private slots:
     void testFailed(const QString& url, int errorCode);
     void onGethubConnected();
     void onGethubGotMessage(const QString& channelName, const QString& userName, const QString& message);
-    void onGethubJoin(const QString&);
+    void onGethubJoin(const QString&, const QStringList&);
 
 private:
     void init();
@@ -49,6 +49,7 @@ private:
     QString baseRedmineUrl;
     IssueContainer* issues;
     QStandardItemModel* model;
+    QStandardItemModel* chatOnlineUsersModel;
     bool inTestConnection;
     GethubClient* gethub;
 };
