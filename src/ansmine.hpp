@@ -9,13 +9,41 @@
 #include "ui_main.h"
 
 class QWidget;
+class RedmineClient;
+class IssueContainer;
+class QStandardItemModel;
 
 class AnsmineMainwindow: public QMainWindow, private Ui::MainWindow {
     Q_OBJECT
 
 public:
     AnsmineMainwindow(QObject* parent=0);
+    ~AnsmineMainwindow();
 
+private slots:
+    void onIssues(const QVariantMap& data);
+    void onFailed(const QString& url, int errorCode);
+    void onAuthorizeButtonClicked();
+    void mainTabChanged(int index);
+    void testConnection();
+    void testSuccess(const QByteArray& data);
+    void testFailed(const QString& url, int errorCode);
+
+private:
+    void init();
+    void centerize();
+    void rebuildIssueList();
+    
+    RedmineClient* redmine;
+    
+    QString host;
+    int userId;
+    QString userName;
+    QString userPass;
+    QString baseRedmineUrl;
+    IssueContainer* issues;
+    QStandardItemModel* model;
+    bool inTestConnection;
 };
 
 

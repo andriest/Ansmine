@@ -3,13 +3,84 @@
 #include <QtGui/QApplication>
 #include <QtGui/QWidget>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QStandardItemModel>
+#include <QtGui/QStandardItem>
+#include <QtGui/QMessageBox>
+#include <QtCore/QSettings>
+#include <qjson/parser.h>
+
 #include "ansmine.hpp"
+#include "redmine.hpp"
+#include "issue.hpp"
 
 
-AnsmineMainwindow::AnsmineMainwindow(QObject* parent)
+AnsmineMainwindow::AnsmineMainwindow(QObject* parent):
+    inTestConnection(false)
 {
     setupUi(this);
     
+
+    init();
+    centerize();
+}
+
+AnsmineMainwindow::~AnsmineMainwindow(){
+    disconnect(redmine, SIGNAL(issues(const QVariantMap&)), this, SLOT(onIssues(const QVariantMap&)));
+    delete redmine;
+    
+    issues->clear();
+    delete issues;
+}
+
+void AnsmineMainwindow::init(){
+    
+    QSettings sett;
+    sett.beginGroup("redmine");
+    
+    host = sett.value("host").toString();
+    userId = sett.value("userId").toInt();
+    userName = sett.value("userName").toString();
+    userPass = sett.value("userPass").toString();
+    baseRedmineUrl = "http://" + host;
+    
+    qDebug() << "userPass: " << userPass;
+    
+    redmine = new RedmineClient(host, userName, userPass);
+    redmine->setUserId(userId);
+    
+    connect(redmine, SIGNAL(issues(const QVariantMap&)), this, SLOT(onIssues(const QVariantMap&)));
+    connect(redmine, SIGNAL(failed(const QString&, int)), this, SLOT(onFailed(const QString&, int)));
+    
+    issues = new IssueContainer();
+    
+    model = new QStandardItemModel();
+    issueListView->setModel(model);
+    
+
+    connect(btnAuthorize, SIGNAL(clicked()), this, SLOT(onAuthorizeButtonClicked()));
+    
+    txtHost->setText(host);
+    txtUserName->setText(userName);
+    //txtPassword->setText(userPass);
+    
+    txtPassword->setEchoMode(QLineEdit::Password);
+    
+    connect(btnTest, SIGNAL(clicked()), this, SLOT(testConnection()));
+    
+    btnAuthorize->setVisible(false);
+    tabMain->setCurrentIndex(0);
+    
+    connect(tabMain, SIGNAL(currentChanged(int)), this, SLOT(mainTabChanged(int)));
+    
+    QString queryStr = QString("%1/issues.json?assigned_to_id=%2").arg(baseRedmineUrl).arg(userId);
+
+    qDebug() << "queryStr: " << queryStr;
+    
+    redmine->query(queryStr);
+    
+}
+
+void AnsmineMainwindow::centerize(){
     QDesktopWidget dw;
     QRect screenGeometry = dw.screenGeometry();
     int x = (screenGeometry.width()-this->width()) / 2;
@@ -17,3 +88,150 @@ AnsmineMainwindow::AnsmineMainwindow(QObject* parent)
     this->move(x, y);
     this->show();
 }
+
+
+void AnsmineMainwindow::onIssues(const QVariantMap& data){
+    issues->clear();
+    
+    foreach(QVariant v, data["issues"].toList()){
+        QVariantMap issm = v.toMap();
+        
+        int id = issm["id"].toInt();
+        QString status = issm["status"].toMap()["name"].toString();
+        QString subject = issm["subject"].toString();
+        QString desc = issm["description"].toString();
+        
+        Issue* issue = new Issue(baseRedmineUrl, id, status, subject, desc);
+        
+        if (!issues->contains(id)) {
+            issues->append(issue);
+        }
+    }
+    rebuildIssueList();
+}
+
+void AnsmineMainwindow::rebuildIssueList(){
+    model->clear();
+    
+    IssueContainer::const_iterator it;
+    for (it = issues->begin(); it != issues->end(); ++it) {
+        Issue* issue = *it;
+        QStandardItem* item = new QStandardItem(issue->toString());
+        item->setEditable(false);
+        model->appendRow(item);
+    }
+}
+
+void AnsmineMainwindow::onAuthorizeButtonClicked(){
+    tabMain->setCurrentIndex(2);
+}
+
+void AnsmineMainwindow::onFailed(const QString& url, int errorCode){
+    if (errorCode == 204) {
+        btnAuthorize->setVisible(true);
+    }
+}
+
+void AnsmineMainwindow::mainTabChanged(int index){
+    qDebug() << "tab changed to " << index;
+    
+    
+    QString newHost = txtHost->text();
+    QString newUserName = txtUserName->text();
+    QString newUserPass = txtPassword->text();
+    
+    qDebug() << "newHost: " << newHost;
+    qDebug() << "newUserName: " << newUserName;
+    qDebug() << "newUserPass: " << newUserPass;
+    
+    if (newHost.length() > 0 && newUserName.length() > 0 && newUserPass.length() > 0) {
+        if (newHost != host || newUserName != userName || newUserPass != userPass) {
+            // save config
+            
+            QSettings st;
+            st.beginGroup("redmine");
+            st.setValue("host", newHost);
+            st.setValue("userName", newUserName);
+            st.setValue("userPass", newUserPass);
+            st.sync();
+        }        
+    }
+    
+}
+
+void AnsmineMainwindow::testConnection(){
+    QString newHost = txtHost->text();
+    QString newUserName = txtUserName->text();
+    QString newUserPass = txtPassword->text();
+    
+    inTestConnection = true;
+
+    connect(redmine, SIGNAL(testSuccess(const QByteArray&)), this, SLOT(testSuccess(const QByteArray&)));
+    connect(redmine, SIGNAL(testFailed(const QString&, int)), this, SLOT(testFailed(const QString&, int)));
+    
+    redmine->test(newHost, newUserName, newUserPass);
+}
+
+void AnsmineMainwindow::testSuccess(const QByteArray& data){
+    disconnect(redmine, SIGNAL(testSuccess(const QByteArray&)), this, SLOT(testSuccess(const QByteArray&)));
+    disconnect(redmine, SIGNAL(testFailed(const QString&, int)), this, SLOT(testFailed(const QString&, int)));
+    
+    QJson::Parser parser;
+    bool ok;
+    
+    QVariantMap result = parser.parse(data, &ok).toMap();
+    
+    if (!ok) {
+        qDebug() << "server response: " << data;
+        QMessageBox::warning(this, "Failed", "Invalid server response");
+        return;
+    }
+    
+    int newUserId = -1;
+    
+    foreach(QVariant v, result["users"].toList()){
+        QVariantMap user = v.toMap();
+        if (user["login"].toString().toLower() == txtUserName->text().toLower()) {
+            newUserId = user["id"].toInt();
+            break;
+        }
+    }
+    
+    if (newUserId == -1) {
+        qDebug() << "server response: " << data;
+        QMessageBox::information(this, "Failed", "Cannot get current user id");
+        return;
+    }
+    
+    
+    userId = newUserId;
+    userName = txtUserName->text();
+    userPass = txtPassword->text();
+    
+    redmine->setUserId(newUserId);
+    redmine->setAccount(userName, userPass);
+    redmine->getIssues();
+    
+    QSettings st;
+    st.beginGroup("redmine");
+    st.setValue("userId", userId);
+    st.setValue("userName", userName);
+    st.setValue("userPass", userPass);
+    st.sync();
+    
+    QMessageBox::information(this, "Success", "Connection Success");
+    
+}
+
+void AnsmineMainwindow::testFailed(const QString& url, int errorCode){
+    disconnect(redmine, SIGNAL(testSuccess(const QByteArray&)), this, SLOT(testSuccess(const QByteArray&)));
+    disconnect(redmine, SIGNAL(testFailed(const QString&, int)), this, SLOT(testFailed(const QString&, int)));
+    
+    if (errorCode == 204 || errorCode == 3) {
+        QMessageBox::warning(this, "Fail", "Invalid user name or password");
+    }else{
+        QMessageBox::warning(this, "Fail", QString("Connection Failed. Code %1").arg(errorCode));
+    }
+}
+
+

@@ -34,7 +34,7 @@ Tray::Tray(const QString& baseRedmineUrl):
     loadRedmine();
     
     QSettings settings;
-    settings.beginGroup("redmine_account");
+    settings.beginGroup("redmine");
     
     userId = settings.value("userId").toInt();
     userName = settings.value("userName").toString();
@@ -89,7 +89,7 @@ void Tray::loadRedmine()
 {
     // load redmine client
     QSettings settings;
-    settings.beginGroup("redmine_account");
+    settings.beginGroup("redmine");
     
     redmine = new RedmineClient("redmine.digaku.com", 
                                 settings.value("userName").toString(), 

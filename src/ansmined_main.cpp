@@ -25,7 +25,7 @@ void initSettings(){
     
     QSettings settings;
     
-    settings.beginGroup("redmine_account");
+    settings.beginGroup("redmine");
     
     if (!settings.contains("userName") || !settings.contains("userPass")
         || !settings.contains("userId")) {
@@ -43,6 +43,10 @@ void initSettings(){
                     << " (" << settings.value("userId").toInt() << ")";
     }
     
+    if (!settings.contains("host")) {
+        settings.setValue("host", "redmine.digaku.com");
+        settings.sync();
+    }
 }
 
 int main(int argc, char** argv)
