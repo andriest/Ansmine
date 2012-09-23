@@ -68,11 +68,15 @@ QT4_WRAP_CPP(ANSMINED_MOC
 QT4_WRAP_CPP(REDMINE_CLIENT_MOC 
 	src/redmine.hpp
 	)
+QT4_WRAP_CPP(GETHUB_CLIENT_MOC
+	src/gethub.hpp
+	)
 QT4_ADD_RESOURCES(ANSMINE_RESOURCES
 	resources/ansmine.qrc
 	)
 	
 ADD_LIBRARY(RedmineClient src/redmine.cpp src/redmine.hpp ${REDMINE_CLIENT_MOC})
+ADD_LIBRARY(GethubClient src/gethub.cpp src/gethub.hpp ${GETHUB_CLIENT_MOC})
 
 IF( APPLE )
 	SET(PROGNAME Ansmine)

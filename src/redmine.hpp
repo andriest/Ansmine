@@ -28,8 +28,11 @@ public:
     
     void setAccount(const QString& _userName, const QString& _userPass);
     void query(const QString& url);
+    void close();
+    
     void onIssues(const QVariantMap& data);
     void onUsers(const QVariantMap& data);
+    
     
     // for connection test
     void test(const QString& _host, const QString& _userName, const QString& password);

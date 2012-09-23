@@ -22,11 +22,20 @@ AnsmineMainwindow::AnsmineMainwindow(QObject* parent):
 
     init();
     centerize();
+    
+    setFocus();
+    activateWindow();
+    setFocus();
 }
 
 AnsmineMainwindow::~AnsmineMainwindow(){
+    disconnect(redmine, SIGNAL(success(const QByteArray&)), this, SLOT(onSuccess(const QByteArray&)));
     disconnect(redmine, SIGNAL(issues(const QVariantMap&)), this, SLOT(onIssues(const QVariantMap&)));
+    disconnect(redmine, SIGNAL(failed(const QString&, int)), this, SLOT(onFailed(const QString&, int)));
+
     delete redmine;
+    
+    disconnect(btnDisconnect, SIGNAL(clicked()), this, SLOT(onDisconnectButtonClicked()));
     
     issues->clear();
     delete issues;
@@ -48,6 +57,7 @@ void AnsmineMainwindow::init(){
     redmine = new RedmineClient(host, userName, userPass);
     redmine->setUserId(userId);
     
+    connect(redmine, SIGNAL(success(const QByteArray&)), this, SLOT(onSuccess(const QByteArray&)));
     connect(redmine, SIGNAL(issues(const QVariantMap&)), this, SLOT(onIssues(const QVariantMap&)));
     connect(redmine, SIGNAL(failed(const QString&, int)), this, SLOT(onFailed(const QString&, int)));
     
@@ -68,6 +78,10 @@ void AnsmineMainwindow::init(){
     connect(btnTest, SIGNAL(clicked()), this, SLOT(testConnection()));
     
     btnAuthorize->setVisible(false);
+    btnDisconnect->setEnabled(false);
+    
+    connect(btnDisconnect, SIGNAL(clicked()), this, SLOT(onDisconnectButtonClicked()));
+    
     tabMain->setCurrentIndex(0);
     
     connect(tabMain, SIGNAL(currentChanged(int)), this, SLOT(mainTabChanged(int)));
@@ -126,10 +140,15 @@ void AnsmineMainwindow::onAuthorizeButtonClicked(){
     tabMain->setCurrentIndex(2);
 }
 
+void AnsmineMainwindow::onSuccess(const QByteArray& data){
+    btnDisconnect->setEnabled(true);
+}
+
 void AnsmineMainwindow::onFailed(const QString& url, int errorCode){
     if (errorCode == 204) {
         btnAuthorize->setVisible(true);
     }
+    btnDisconnect->setEnabled(false);
 }
 
 void AnsmineMainwindow::mainTabChanged(int index){
@@ -233,5 +252,24 @@ void AnsmineMainwindow::testFailed(const QString& url, int errorCode){
         QMessageBox::warning(this, "Fail", QString("Connection Failed. Code %1").arg(errorCode));
     }
 }
+
+void AnsmineMainwindow::onDisconnectButtonClicked(){
+    redmine->close();
+    
+    QSettings st;
+    st.beginGroup("redmine");
+    st.setValue("userId", 0);
+    st.setValue("userName", "");
+    st.setValue("userPass", "");
+    st.sync();
+    
+    userId = 0;
+    userName = "";
+    userPass = "";
+    
+    model->clear();
+}
+
+
 
 

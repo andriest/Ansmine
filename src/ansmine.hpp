@@ -23,7 +23,9 @@ public:
 private slots:
     void onIssues(const QVariantMap& data);
     void onFailed(const QString& url, int errorCode);
+    void onSuccess(const QByteArray& data);
     void onAuthorizeButtonClicked();
+    void onDisconnectButtonClicked();
     void mainTabChanged(int index);
     void testConnection();
     void testSuccess(const QByteArray& data);

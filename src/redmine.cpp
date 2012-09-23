@@ -166,6 +166,14 @@ void RedmineClient::setAccount(const QString& _userName, const QString& _userPas
     m_req->setRawHeader("Authorization", "Basic " + basicAuth.toBase64());
 }
 
-
+void RedmineClient::close(){
+    
+    qDebug() << "Redmine client closed";
+    
+    setUserId(0);
+    setAccount("", "");
+    delete m_req;
+    m_req = new QNetworkRequest();
+}
 
 

@@ -121,6 +121,7 @@ void Tray::createActions(){
 
 
 void Tray::createTrayIcons(){
+    trayIconMenu->addAction(openAction);
     trayIconMenu->addAction(quitAction);
     
     trayIcon = new QSystemTrayIcon(this);
