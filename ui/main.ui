@@ -60,7 +60,7 @@ color: rgb(127, 136, 204);</string>
         <item>
          <widget class="QTabWidget" name="tabMain">
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tabIssues">
            <attribute name="title">
@@ -83,6 +83,27 @@ color: rgb(127, 136, 204);</string>
            <attribute name="title">
             <string>Chat</string>
            </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QTextEdit" name="txtChat"/>
+            </item>
+            <item>
+             <widget class="QListView" name="lstOnlineUsers">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>110</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab">
            <attribute name="title">

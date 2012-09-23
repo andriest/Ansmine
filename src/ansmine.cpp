@@ -26,7 +26,6 @@ AnsmineMainwindow::AnsmineMainwindow(QObject* parent):
     
     setFocus();
     activateWindow();
-    setFocus();
 }
 
 AnsmineMainwindow::~AnsmineMainwindow(){
