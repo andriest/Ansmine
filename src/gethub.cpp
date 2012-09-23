@@ -50,6 +50,7 @@ void GethubClient::onConnected(){
     QByteArray ba = NS_AUTHORIZE.arg("robin").arg("123").toLocal8Bit();
     const char* data = ba.data();
     m_socket->write(data, strlen(data));
+    m_socket->flush();
 }
 
 void GethubClient::onDisconnected(){

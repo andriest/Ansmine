@@ -300,10 +300,10 @@ void AnsmineMainwindow::onGethubGotMessage(const QString& channelName, const QSt
 }
 
 void AnsmineMainwindow::onGethubJoin(const QString& channelName, const QStringList& participantns){
-    qDebug() << "GethubClient: do binding...";
+    qDebug() << "GethubClient: join " << channelName << " success, do binding...";
     
     foreach(QString uname, participantns){
-        QStandardItem* item = new QStandardItem(uname);
+        QStandardItem* item = new QStandardItem(QIcon(":/user_16x16.png"), uname);
         item->setEditable(false);
         chatOnlineUsersModel->appendRow(item);
     }
