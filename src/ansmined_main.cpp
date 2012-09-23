@@ -4,6 +4,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtGui/QMainWindow>
+#include <QtCore/QSharedMemory>
 
 #ifdef Q_WS_MAC
 #include <Carbon/Carbon.h>
@@ -55,6 +56,14 @@ int main(int argc, char** argv)
     
 
     QApplication app(argc, argv);
+    
+    // detect is already running.
+    QSharedMemory mem("AnsminedPid");
+    if (!mem.create(1)) {
+        qDebug() << "Another instance already running";
+        return 1;
+    }
+    
     
     app.setQuitOnLastWindowClosed(true);
     

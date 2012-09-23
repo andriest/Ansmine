@@ -52,7 +52,7 @@ Tray::Tray(const QString& baseRedmineUrl):
     
     //playSound("new-task");
     
-    trayIcon->showMessage("app dir", QCoreApplication::applicationDirPath());
+    //trayIcon->showMessage("app dir", QCoreApplication::applicationDirPath());
 }
 
 Tray::~Tray()
@@ -132,7 +132,7 @@ void Tray::createTrayIcons(){
 void Tray::openMainWindow(){
     QProcess ps;
     QString path = QCoreApplication::applicationDirPath() + "/Ansmine";
-    ps.startDetached(path, QStringList(), QCoreApplication::applicationDirPath());
+    ps.startDetached(path, QStringList() << "--open", QCoreApplication::applicationDirPath());
 }
 
 
@@ -144,6 +144,7 @@ void Tray::quit(){
 
 void Tray::onIssues(const QVariantMap& data){
     
+    bool issuesChanged = false;
     QList<int> removedIssueIds;
     
     IssueContainer::const_iterator it;
@@ -197,13 +198,18 @@ void Tray::onIssues(const QVariantMap& data){
                 iss->setSubject(subject);
             }
             
+            issuesChanged = statusChanged || subjectChanged;
+            
         }else{
+            issuesChanged = true;
+            
             iss = new Issue(baseUrl,
                             id, 
                             status,
                             subject, issue["description"].toString());
             
             issues->append(iss);
+            
             
             // if not first init
             // then show notification
@@ -222,6 +228,7 @@ void Tray::onIssues(const QVariantMap& data){
     }
     
     if (removedIssueIds.length() > 0) {
+        issuesChanged = true;
         QList<int>::const_iterator it;
         for (it = removedIssueIds.begin(); it != removedIssueIds.end(); ++it) {
             Issue* iss = issues->getById(*it);
@@ -239,7 +246,12 @@ void Tray::onIssues(const QVariantMap& data){
     
     
     firstRun = false;
-    rebuildMenu();
+    
+    if (issuesChanged) {
+        qDebug() << "Issues changed, rebuild menu.";
+        rebuildMenu();        
+    }
+
 }
 
 void Tray::playSound(const QString &name){

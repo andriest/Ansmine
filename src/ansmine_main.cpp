@@ -5,6 +5,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QProcess>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QSharedMemory>
 
 #include "config.hpp"
 #include "ansmine.hpp"
@@ -44,20 +45,37 @@ int main(int argc, char** argv)
     
     QApplication app(argc, argv);
     
+    // detect is already running.
+    QSharedMemory mem("AnsminePid");
+    if (!mem.create(1)) {
+        qDebug() << "Another instance already running";
+        return 1;
+    }
+    
     initSettings();
     
     AnsmineMainwindow win;
     
     win.show();
     
-    // run Ansmined
+    bool runTray = true;
+    if (argc > 1) {
+        if (QString(argv[1]) == "--open") {
+            runTray = false;
+        }
+    }
     
-    QString path = QCoreApplication::applicationDirPath() + "/Ansmined";
-    
-    qDebug() << "running " << path;
-    
-    QProcess ps;;
-    ps.startDetached(path, QStringList(), QCoreApplication::applicationDirPath());
+    if (runTray) {
+        // run Ansmined
+        
+        QString path = QCoreApplication::applicationDirPath() + "/Ansmined";
+        
+        qDebug() << "running " << path;
+        
+        QProcess ps;;
+        ps.startDetached(path, QStringList(), QCoreApplication::applicationDirPath());
+        
+    }
     
     
 	return app.exec();
