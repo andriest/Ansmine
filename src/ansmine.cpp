@@ -13,13 +13,13 @@
 #include "redmine.hpp"
 #include "issue.hpp"
 #include "gethub.hpp"
+#include "settings_chat.hpp"
 
 
 AnsmineMainwindow::AnsmineMainwindow(QObject* parent):
     inTestConnection(false)
 {
     setupUi(this);
-    
 
     init();
     centerize();
@@ -45,6 +45,8 @@ AnsmineMainwindow::~AnsmineMainwindow(){
     disconnect(gethub, SIGNAL(onJoin(const QString&, const QStringList&)), this, SLOT(onGethubJoin(const QString&, const QStringList&)));
     
     delete gethub;
+    
+    delete settingsChat;
 }
 
 void AnsmineMainwindow::init(){
@@ -94,6 +96,8 @@ void AnsmineMainwindow::init(){
     tabMain->setCurrentIndex(0);
     
     connect(tabMain, SIGNAL(currentChanged(int)), this, SLOT(mainTabChanged(int)));
+    
+    settingsChat = new SettingsChat(this);
     
     QString queryStr = QString("%1/issues.json?assigned_to_id=%2").arg(baseRedmineUrl).arg(userId);
 

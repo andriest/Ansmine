@@ -33,6 +33,9 @@ SET( ANSMINE_SOURCES
 	src/ansmine.hpp
 	src/ansmine.cpp
 	src/gethub.hpp
+	src/settings_chat.hpp
+	src/settings_chat.cpp
+	src/separate_class.hpp
 	)
 	
 SET( ANSMINED_SOURCES
@@ -45,6 +48,7 @@ SET( ANSMINED_SOURCES
 	src/redmine_model.cpp
 	src/issue.hpp
 	src/issue.cpp
+	src/separate_class.hpp
 	)
 
 INCLUDE_DIRECTORIES(
@@ -60,6 +64,7 @@ QT4_WRAP_UI(ANSMINE_UI_HEADERS
 	)
 QT4_WRAP_CPP(ANSMINE_MOC 
 	src/ansmine.hpp
+	src/settings_chat.hpp
 	)
 QT4_WRAP_CPP(ANSMINED_MOC 
 	src/tray.hpp

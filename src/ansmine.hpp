@@ -13,8 +13,9 @@ class RedmineClient;
 class IssueContainer;
 class QStandardItemModel;
 class GethubClient;
+class SettingsChat;
 
-class AnsmineMainwindow: public QMainWindow, private Ui::MainWindow {
+class AnsmineMainwindow: public QMainWindow, protected Ui::MainWindow {
     Q_OBJECT
 
 public:
@@ -52,6 +53,9 @@ private:
     QStandardItemModel* chatOnlineUsersModel;
     bool inTestConnection;
     GethubClient* gethub;
+    SettingsChat* settingsChat;
+    
+    friend class SettingsChat;
 };
 
 
