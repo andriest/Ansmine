@@ -6,7 +6,7 @@ FIND_PATH(QJSON_INCLUDE_DIR NAME parser.h PATHS
 	/opt/local/include/qjson
 	)
 
-FIND_FILE(QJSON_LIBRARY NAMES libqjson.dylib libqjson.0.dylib PATHS
+FIND_FILE(QJSON_LIBRARY NAMES libqjson.dylib libqjson.0.dylib libqjson.so PATHS
 	/opt/lib
 	/opt/local/lib
 	/usr/lib

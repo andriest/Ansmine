@@ -30,81 +30,34 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /opt/local/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /opt/local/bin/cmake -E remove -f
-
-# Escaping for special characters.
-EQUALS = =
-
-# The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /opt/local/bin/ccmake
+RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/robin/Development/ansvia/ansmine
+CMAKE_SOURCE_DIR = /home/andrie/Ansmine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/robin/Development/ansvia/ansmine
+CMAKE_BINARY_DIR = /home/andrie/Ansmine
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/opt/local/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
+	/usr/bin/cmake -i .
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
 edit_cache/fast: edit_cache
 .PHONY : edit_cache/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/opt/local/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/opt/local/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/opt/local/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: install/local
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/opt/local/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-.PHONY : install/strip/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	/opt/local/bin/cpack --config ./CPackConfig.cmake
+	/usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -114,7 +67,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/opt/local/bin/cpack --config ./CPackSourceConfig.cmake /Users/robin/Development/ansvia/ansmine/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/andrie/Ansmine/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -124,7 +77,7 @@ package_source/fast: package_source
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/opt/local/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -133,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/robin/Development/ansvia/ansmine/CMakeFiles /Users/robin/Development/ansvia/ansmine/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/andrie/Ansmine/CMakeFiles /home/andrie/Ansmine/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/robin/Development/ansvia/ansmine/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/andrie/Ansmine/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -163,30 +116,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Ansmine
+# Target rules for targets named GethubClient
 
 # Build rule for target.
-Ansmine: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Ansmine
-.PHONY : Ansmine
+GethubClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 GethubClient
+.PHONY : GethubClient
 
 # fast build rule for target.
-Ansmine/fast:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/build
-.PHONY : Ansmine/fast
-
-#=============================================================================
-# Target rules for targets named Ansmined
-
-# Build rule for target.
-Ansmined: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Ansmined
-.PHONY : Ansmined
-
-# fast build rule for target.
-Ansmined/fast:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/build
-.PHONY : Ansmined/fast
+GethubClient/fast:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/build
+.PHONY : GethubClient/fast
 
 #=============================================================================
 # Target rules for targets named RedmineClient
@@ -201,13 +141,39 @@ RedmineClient/fast:
 	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/build
 .PHONY : RedmineClient/fast
 
+#=============================================================================
+# Target rules for targets named ansmine
+
+# Build rule for target.
+ansmine: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ansmine
+.PHONY : ansmine
+
+# fast build rule for target.
+ansmine/fast:
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/build
+.PHONY : ansmine/fast
+
+#=============================================================================
+# Target rules for targets named ansmined
+
+# Build rule for target.
+ansmined: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ansmined
+.PHONY : ansmined
+
+# fast build rule for target.
+ansmined/fast:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/build
+.PHONY : ansmined/fast
+
 qrc_ansmine.o: qrc_ansmine.cxx.o
 .PHONY : qrc_ansmine.o
 
 # target to build an object file
 qrc_ansmine.cxx.o:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.o
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/qrc_ansmine.cxx.o
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/qrc_ansmine.cxx.o
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/qrc_ansmine.cxx.o
 .PHONY : qrc_ansmine.cxx.o
 
 qrc_ansmine.i: qrc_ansmine.cxx.i
@@ -215,8 +181,8 @@ qrc_ansmine.i: qrc_ansmine.cxx.i
 
 # target to preprocess a source file
 qrc_ansmine.cxx.i:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.i
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/qrc_ansmine.cxx.i
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/qrc_ansmine.cxx.i
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/qrc_ansmine.cxx.i
 .PHONY : qrc_ansmine.cxx.i
 
 qrc_ansmine.s: qrc_ansmine.cxx.s
@@ -224,64 +190,16 @@ qrc_ansmine.s: qrc_ansmine.cxx.s
 
 # target to generate assembly for a file
 qrc_ansmine.cxx.s:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/qrc_ansmine.cxx.s
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/qrc_ansmine.cxx.s
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/qrc_ansmine.cxx.s
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/qrc_ansmine.cxx.s
 .PHONY : qrc_ansmine.cxx.s
-
-src/ansmine.o: src/ansmine.cpp.o
-.PHONY : src/ansmine.o
-
-# target to build an object file
-src/ansmine.cpp.o:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmine.cpp.o
-.PHONY : src/ansmine.cpp.o
-
-src/ansmine.i: src/ansmine.cpp.i
-.PHONY : src/ansmine.i
-
-# target to preprocess a source file
-src/ansmine.cpp.i:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmine.cpp.i
-.PHONY : src/ansmine.cpp.i
-
-src/ansmine.s: src/ansmine.cpp.s
-.PHONY : src/ansmine.s
-
-# target to generate assembly for a file
-src/ansmine.cpp.s:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmine.cpp.s
-.PHONY : src/ansmine.cpp.s
-
-src/ansmine_main.o: src/ansmine_main.cpp.o
-.PHONY : src/ansmine_main.o
-
-# target to build an object file
-src/ansmine_main.cpp.o:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmine_main.cpp.o
-.PHONY : src/ansmine_main.cpp.o
-
-src/ansmine_main.i: src/ansmine_main.cpp.i
-.PHONY : src/ansmine_main.i
-
-# target to preprocess a source file
-src/ansmine_main.cpp.i:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmine_main.cpp.i
-.PHONY : src/ansmine_main.cpp.i
-
-src/ansmine_main.s: src/ansmine_main.cpp.s
-.PHONY : src/ansmine_main.s
-
-# target to generate assembly for a file
-src/ansmine_main.cpp.s:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/ansmine_main.cpp.s
-.PHONY : src/ansmine_main.cpp.s
 
 src/ansmined_main.o: src/ansmined_main.cpp.o
 .PHONY : src/ansmined_main.o
 
 # target to build an object file
 src/ansmined_main.cpp.o:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/ansmined_main.cpp.o
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/ansmined_main.cpp.o
 .PHONY : src/ansmined_main.cpp.o
 
 src/ansmined_main.i: src/ansmined_main.cpp.i
@@ -289,7 +207,7 @@ src/ansmined_main.i: src/ansmined_main.cpp.i
 
 # target to preprocess a source file
 src/ansmined_main.cpp.i:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/ansmined_main.cpp.i
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/ansmined_main.cpp.i
 .PHONY : src/ansmined_main.cpp.i
 
 src/ansmined_main.s: src/ansmined_main.cpp.s
@@ -297,15 +215,87 @@ src/ansmined_main.s: src/ansmined_main.cpp.s
 
 # target to generate assembly for a file
 src/ansmined_main.cpp.s:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/ansmined_main.cpp.s
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/ansmined_main.cpp.s
 .PHONY : src/ansmined_main.cpp.s
+
+src/gethub.o: src/gethub.cpp.o
+.PHONY : src/gethub.o
+
+# target to build an object file
+src/gethub.cpp.o:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/src/gethub.cpp.o
+.PHONY : src/gethub.cpp.o
+
+src/gethub.i: src/gethub.cpp.i
+.PHONY : src/gethub.i
+
+# target to preprocess a source file
+src/gethub.cpp.i:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/src/gethub.cpp.i
+.PHONY : src/gethub.cpp.i
+
+src/gethub.s: src/gethub.cpp.s
+.PHONY : src/gethub.s
+
+# target to generate assembly for a file
+src/gethub.cpp.s:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/src/gethub.cpp.s
+.PHONY : src/gethub.cpp.s
+
+src/issue.o: src/issue.cpp.o
+.PHONY : src/issue.o
+
+# target to build an object file
+src/issue.cpp.o:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/issue.cpp.o
+.PHONY : src/issue.cpp.o
+
+src/issue.i: src/issue.cpp.i
+.PHONY : src/issue.i
+
+# target to preprocess a source file
+src/issue.cpp.i:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/issue.cpp.i
+.PHONY : src/issue.cpp.i
+
+src/issue.s: src/issue.cpp.s
+.PHONY : src/issue.s
+
+# target to generate assembly for a file
+src/issue.cpp.s:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/issue.cpp.s
+.PHONY : src/issue.cpp.s
+
+src/login.o: src/login.cpp.o
+.PHONY : src/login.o
+
+# target to build an object file
+src/login.cpp.o:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/login.cpp.o
+.PHONY : src/login.cpp.o
+
+src/login.i: src/login.cpp.i
+.PHONY : src/login.i
+
+# target to preprocess a source file
+src/login.cpp.i:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/login.cpp.i
+.PHONY : src/login.cpp.i
+
+src/login.s: src/login.cpp.s
+.PHONY : src/login.s
+
+# target to generate assembly for a file
+src/login.cpp.s:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/login.cpp.s
+.PHONY : src/login.cpp.s
 
 src/moc_ansmine.o: src/moc_ansmine.cxx.o
 .PHONY : src/moc_ansmine.o
 
 # target to build an object file
 src/moc_ansmine.cxx.o:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.o
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/src/moc_ansmine.cxx.o
 .PHONY : src/moc_ansmine.cxx.o
 
 src/moc_ansmine.i: src/moc_ansmine.cxx.i
@@ -313,7 +303,7 @@ src/moc_ansmine.i: src/moc_ansmine.cxx.i
 
 # target to preprocess a source file
 src/moc_ansmine.cxx.i:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.i
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/src/moc_ansmine.cxx.i
 .PHONY : src/moc_ansmine.cxx.i
 
 src/moc_ansmine.s: src/moc_ansmine.cxx.s
@@ -321,16 +311,64 @@ src/moc_ansmine.s: src/moc_ansmine.cxx.s
 
 # target to generate assembly for a file
 src/moc_ansmine.cxx.s:
-	$(MAKE) -f CMakeFiles/Ansmine.dir/build.make CMakeFiles/Ansmine.dir/src/moc_ansmine.cxx.s
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/src/moc_ansmine.cxx.s
 .PHONY : src/moc_ansmine.cxx.s
+
+src/moc_gethub.o: src/moc_gethub.cxx.o
+.PHONY : src/moc_gethub.o
+
+# target to build an object file
+src/moc_gethub.cxx.o:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/src/moc_gethub.cxx.o
+.PHONY : src/moc_gethub.cxx.o
+
+src/moc_gethub.i: src/moc_gethub.cxx.i
+.PHONY : src/moc_gethub.i
+
+# target to preprocess a source file
+src/moc_gethub.cxx.i:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/src/moc_gethub.cxx.i
+.PHONY : src/moc_gethub.cxx.i
+
+src/moc_gethub.s: src/moc_gethub.cxx.s
+.PHONY : src/moc_gethub.s
+
+# target to generate assembly for a file
+src/moc_gethub.cxx.s:
+	$(MAKE) -f CMakeFiles/GethubClient.dir/build.make CMakeFiles/GethubClient.dir/src/moc_gethub.cxx.s
+.PHONY : src/moc_gethub.cxx.s
+
+src/moc_login.o: src/moc_login.cxx.o
+.PHONY : src/moc_login.o
+
+# target to build an object file
+src/moc_login.cxx.o:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_login.cxx.o
+.PHONY : src/moc_login.cxx.o
+
+src/moc_login.i: src/moc_login.cxx.i
+.PHONY : src/moc_login.i
+
+# target to preprocess a source file
+src/moc_login.cxx.i:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_login.cxx.i
+.PHONY : src/moc_login.cxx.i
+
+src/moc_login.s: src/moc_login.cxx.s
+.PHONY : src/moc_login.s
+
+# target to generate assembly for a file
+src/moc_login.cxx.s:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_login.cxx.s
+.PHONY : src/moc_login.cxx.s
 
 src/moc_redmine.o: src/moc_redmine.cxx.o
 .PHONY : src/moc_redmine.o
 
 # target to build an object file
 src/moc_redmine.cxx.o:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_redmine.cxx.o
 	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/moc_redmine.cxx.o
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_redmine.cxx.o
 .PHONY : src/moc_redmine.cxx.o
 
 src/moc_redmine.i: src/moc_redmine.cxx.i
@@ -338,8 +376,8 @@ src/moc_redmine.i: src/moc_redmine.cxx.i
 
 # target to preprocess a source file
 src/moc_redmine.cxx.i:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_redmine.cxx.i
 	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/moc_redmine.cxx.i
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_redmine.cxx.i
 .PHONY : src/moc_redmine.cxx.i
 
 src/moc_redmine.s: src/moc_redmine.cxx.s
@@ -347,16 +385,40 @@ src/moc_redmine.s: src/moc_redmine.cxx.s
 
 # target to generate assembly for a file
 src/moc_redmine.cxx.s:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_redmine.cxx.s
 	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/moc_redmine.cxx.s
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_redmine.cxx.s
 .PHONY : src/moc_redmine.cxx.s
+
+src/moc_settings_chat.o: src/moc_settings_chat.cxx.o
+.PHONY : src/moc_settings_chat.o
+
+# target to build an object file
+src/moc_settings_chat.cxx.o:
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/src/moc_settings_chat.cxx.o
+.PHONY : src/moc_settings_chat.cxx.o
+
+src/moc_settings_chat.i: src/moc_settings_chat.cxx.i
+.PHONY : src/moc_settings_chat.i
+
+# target to preprocess a source file
+src/moc_settings_chat.cxx.i:
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/src/moc_settings_chat.cxx.i
+.PHONY : src/moc_settings_chat.cxx.i
+
+src/moc_settings_chat.s: src/moc_settings_chat.cxx.s
+.PHONY : src/moc_settings_chat.s
+
+# target to generate assembly for a file
+src/moc_settings_chat.cxx.s:
+	$(MAKE) -f CMakeFiles/ansmine.dir/build.make CMakeFiles/ansmine.dir/src/moc_settings_chat.cxx.s
+.PHONY : src/moc_settings_chat.cxx.s
 
 src/moc_tray.o: src/moc_tray.cxx.o
 .PHONY : src/moc_tray.o
 
 # target to build an object file
 src/moc_tray.cxx.o:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.o
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_tray.cxx.o
 .PHONY : src/moc_tray.cxx.o
 
 src/moc_tray.i: src/moc_tray.cxx.i
@@ -364,7 +426,7 @@ src/moc_tray.i: src/moc_tray.cxx.i
 
 # target to preprocess a source file
 src/moc_tray.cxx.i:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.i
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_tray.cxx.i
 .PHONY : src/moc_tray.cxx.i
 
 src/moc_tray.s: src/moc_tray.cxx.s
@@ -372,7 +434,7 @@ src/moc_tray.s: src/moc_tray.cxx.s
 
 # target to generate assembly for a file
 src/moc_tray.cxx.s:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/moc_tray.cxx.s
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/moc_tray.cxx.s
 .PHONY : src/moc_tray.cxx.s
 
 src/redmine.o: src/redmine.cpp.o
@@ -399,12 +461,36 @@ src/redmine.cpp.s:
 	$(MAKE) -f CMakeFiles/RedmineClient.dir/build.make CMakeFiles/RedmineClient.dir/src/redmine.cpp.s
 .PHONY : src/redmine.cpp.s
 
+src/redmine_model.o: src/redmine_model.cpp.o
+.PHONY : src/redmine_model.o
+
+# target to build an object file
+src/redmine_model.cpp.o:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/redmine_model.cpp.o
+.PHONY : src/redmine_model.cpp.o
+
+src/redmine_model.i: src/redmine_model.cpp.i
+.PHONY : src/redmine_model.i
+
+# target to preprocess a source file
+src/redmine_model.cpp.i:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/redmine_model.cpp.i
+.PHONY : src/redmine_model.cpp.i
+
+src/redmine_model.s: src/redmine_model.cpp.s
+.PHONY : src/redmine_model.s
+
+# target to generate assembly for a file
+src/redmine_model.cpp.s:
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/redmine_model.cpp.s
+.PHONY : src/redmine_model.cpp.s
+
 src/tray.o: src/tray.cpp.o
 .PHONY : src/tray.o
 
 # target to build an object file
 src/tray.cpp.o:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/tray.cpp.o
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/tray.cpp.o
 .PHONY : src/tray.cpp.o
 
 src/tray.i: src/tray.cpp.i
@@ -412,7 +498,7 @@ src/tray.i: src/tray.cpp.i
 
 # target to preprocess a source file
 src/tray.cpp.i:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/tray.cpp.i
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/tray.cpp.i
 .PHONY : src/tray.cpp.i
 
 src/tray.s: src/tray.cpp.s
@@ -420,7 +506,7 @@ src/tray.s: src/tray.cpp.s
 
 # target to generate assembly for a file
 src/tray.cpp.s:
-	$(MAKE) -f CMakeFiles/Ansmined.dir/build.make CMakeFiles/Ansmined.dir/src/tray.cpp.s
+	$(MAKE) -f CMakeFiles/ansmined.dir/build.make CMakeFiles/ansmined.dir/src/tray.cpp.s
 .PHONY : src/tray.cpp.s
 
 # Help Target
@@ -429,41 +515,53 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... Ansmine"
-	@echo "... Ansmined"
+	@echo "... GethubClient"
 	@echo "... RedmineClient"
+	@echo "... ansmine"
+	@echo "... ansmined"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... qrc_ansmine.o"
 	@echo "... qrc_ansmine.i"
 	@echo "... qrc_ansmine.s"
-	@echo "... src/ansmine.o"
-	@echo "... src/ansmine.i"
-	@echo "... src/ansmine.s"
-	@echo "... src/ansmine_main.o"
-	@echo "... src/ansmine_main.i"
-	@echo "... src/ansmine_main.s"
 	@echo "... src/ansmined_main.o"
 	@echo "... src/ansmined_main.i"
 	@echo "... src/ansmined_main.s"
+	@echo "... src/gethub.o"
+	@echo "... src/gethub.i"
+	@echo "... src/gethub.s"
+	@echo "... src/issue.o"
+	@echo "... src/issue.i"
+	@echo "... src/issue.s"
+	@echo "... src/login.o"
+	@echo "... src/login.i"
+	@echo "... src/login.s"
 	@echo "... src/moc_ansmine.o"
 	@echo "... src/moc_ansmine.i"
 	@echo "... src/moc_ansmine.s"
+	@echo "... src/moc_gethub.o"
+	@echo "... src/moc_gethub.i"
+	@echo "... src/moc_gethub.s"
+	@echo "... src/moc_login.o"
+	@echo "... src/moc_login.i"
+	@echo "... src/moc_login.s"
 	@echo "... src/moc_redmine.o"
 	@echo "... src/moc_redmine.i"
 	@echo "... src/moc_redmine.s"
+	@echo "... src/moc_settings_chat.o"
+	@echo "... src/moc_settings_chat.i"
+	@echo "... src/moc_settings_chat.s"
 	@echo "... src/moc_tray.o"
 	@echo "... src/moc_tray.i"
 	@echo "... src/moc_tray.s"
 	@echo "... src/redmine.o"
 	@echo "... src/redmine.i"
 	@echo "... src/redmine.s"
+	@echo "... src/redmine_model.o"
+	@echo "... src/redmine_model.i"
+	@echo "... src/redmine_model.s"
 	@echo "... src/tray.o"
 	@echo "... src/tray.i"
 	@echo "... src/tray.s"
