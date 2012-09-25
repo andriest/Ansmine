@@ -134,7 +134,7 @@ void RedmineClient::test(const QString& _host, const QString& _userName, const Q
     QByteArray basicAuth(QString(_userName + ":" + password).toAscii());
     
     req.setRawHeader("Authorization", "Basic " + basicAuth.toBase64());
-    req.setUrl("http://" + _host + "/users.json");
+    req.setUrl("http://" + _host + "/users/current.json");
     
     m_inTest = true;
     

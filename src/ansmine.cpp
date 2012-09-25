@@ -163,14 +163,15 @@ void AnsmineMainwindow::onAuthorizeButtonClicked(){
 }
 
 void AnsmineMainwindow::onSuccess(const QByteArray& data){
+    btnTest->setEnabled(false);
     btnDisconnect->setEnabled(true);
 }
 
 void AnsmineMainwindow::onFailed(const QString& url, int errorCode){
-    if (errorCode == 204) {
-        btnAuthorize->setVisible(true);
-    }
-    btnDisconnect->setEnabled(false);
+//    if (errorCode == 204) {
+//        btnAuthorize->setVisible(true);
+//    }
+//    btnDisconnect->setEnabled(false);
 }
 
 void AnsmineMainwindow::mainTabChanged(int index){
@@ -230,13 +231,16 @@ void AnsmineMainwindow::testSuccess(const QByteArray& data){
     
     int newUserId = -1;
     
-    foreach(QVariant v, result["users"].toList()){
-        QVariantMap user = v.toMap();
-        if (user["login"].toString().toLower() == txtUserName->text().toLower()) {
-            newUserId = user["id"].toInt();
-            break;
-        }
-    }
+    QVariantMap user = result["user"].toMap();
+    newUserId = user["id"].toInt();
+    
+//    foreach(QVariant v, result["users"].toList()){
+//        QVariantMap user = v.toMap();
+//        if (user["login"].toString().toLower() == txtUserName->text().toLower()) {
+//            newUserId = user["id"].toInt();
+//            break;
+//        }
+//    }
     
     if (newUserId == -1) {
         qDebug() << "server response: " << data;
@@ -259,6 +263,9 @@ void AnsmineMainwindow::testSuccess(const QByteArray& data){
     st.setValue("userName", userName);
     st.setValue("userPass", userPass);
     st.sync();
+    
+    btnTest->setEnabled(false);
+    btnDisconnect->setEnabled(true);
     
     QMessageBox::information(this, "Success", "Connection Success");
     
@@ -290,6 +297,11 @@ void AnsmineMainwindow::onDisconnectButtonClicked(){
     userPass = "";
     
     model->clear();
+    
+    btnTest->setEnabled(true);
+    btnDisconnect->setEnabled(false);
+    
+    QMessageBox::information(this, "Information", "You have been disconnected");
 }
 
 void AnsmineMainwindow::onGethubConnected(){
